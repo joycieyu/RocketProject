@@ -1,5 +1,20 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+* {
+   margin: 0;
+   padding: 0;
+   font-family: 'Roboto', sans-serif;
+}
+
+/* workaround for normalize.css breaking material ui buttons */
+span[type=button] {
+   -webkit-appearance: none;
+}
+a[type=button] {
+   -webkit-appearance: none;
+}
+
+.container {
+   padding-top: 64px;
+   max-width: '768px';
+   margin-left: 'auto';
+   margin-right: 'auto';
 }
