@@ -26,7 +26,7 @@ class App extends Component {
 
    // add a new song to the play list
    updateNowPlaying = (song) => {
-      console.log(song);
+      console.log(this.state.nowPlaying);
       this.setState({ 
          nowPlaying: this.state.nowPlaying.concat([{
             url: song.preview_url,
@@ -45,7 +45,7 @@ class App extends Component {
             }
             </div>
             {this.state.nowPlaying.length > 0 && 
-               <AudioPlayer style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/>
+               <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/>
             }
          </div>
       );
