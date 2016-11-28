@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { AppBar, AutoComplete, GridList, GridTile, Subheader }   from 'material-ui';
+import AudioPlayer from 'react-responsive-audio-player';
+import { AppBar, AutoComplete, GridList, GridTile, IconButton, Subheader }   from 'material-ui';
+import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
+import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import FetchController from './FetchController';
@@ -10,13 +13,26 @@ class App extends Component {
    constructor(props) {
       super(props);
       this.state = ({
-         songList: []
+         songList: [],
+         nowPlaying: []
       });
    }
 
+   // show list of songs returned by the search query
    refreshSongList = (data) => {
       console.log(data.tracks.items);
       this.setState({songList: data.tracks.items});
+   }
+
+   // add a new song to the play list
+   updateNowPlaying = (song) => {
+      console.log(song);
+      this.setState({ 
+         nowPlaying: this.state.nowPlaying.concat([{
+            url: song.preview_url,
+            displayText: song.name + ' - ' + song.artists[0].name
+         }]) 
+      });
    }
 
    render() {
@@ -24,11 +40,13 @@ class App extends Component {
          <div>
             <Nav refreshSongList={this.refreshSongList}/>
             <div className="container">
-            {
-               this.state.songList.length > 0 &&
-               <SongList songList={this.state.songList}/>
+            {this.state.songList.length > 0 &&
+               <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
             }
             </div>
+            {this.state.nowPlaying.length > 0 && 
+               <AudioPlayer style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/>
+            }
          </div>
       );
    }
@@ -46,6 +64,7 @@ class Nav extends Component {
       this.setState({inputValue: inputValue});
    }
 
+   // search for songs
    onNewRequest = (query) => {
       FetchController.fetchData('https://api.spotify.com/v1/search?type=track&q='+query)
       .then((data) => {
@@ -58,7 +77,7 @@ class Nav extends Component {
          <div>
             <AppBar
                title="It's Lit Fam"
-               style={styles.AppBarStyle}
+               style={styles.appBarStyle}
                iconElementRight={
                   <AutoComplete hintText="Type your mood here..." 
                      dataSource={this.state.dataSource} 
@@ -74,7 +93,8 @@ class Nav extends Component {
 class SongList extends Component {
    render() {
       var songCards = this.props.songList.map((song, index) => {
-         return <GridTile key={index} title={song.name} subtitle={song.artists[0].name} >
+         return <GridTile key={index} title={song.name} subtitle={song.artists[0].name} 
+            actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50}/></IconButton>}>
                   <img src={song.album.images[1].url} />
          </GridTile>
       });
@@ -83,6 +103,7 @@ class SongList extends Component {
          <div>
             <GridList
                cellHeight={180}
+               style={styles.songListStyle}
             >
             <Subheader>Results</Subheader>
             {songCards}
