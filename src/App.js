@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, GridList, GridTile, IconButton, Subheader }   from 'material-ui';
+import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Subheader }   from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import FetchController from './FetchController';
 import SearchHome from './SearchHome';
+import { goToSpotifyLogin, params } from './auth.js';
 //import VisualPage from './Visualizer';
 
 injectTapEventPlugin();
@@ -43,6 +44,9 @@ class App extends Component {
             <Nav refreshSongList={this.refreshSongList}/>
             <div className="container">
              <SearchHome />
+             {!params && 
+                <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
+             }
              {this.state.songList.length > 0 &&
                   <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
              }              
@@ -73,6 +77,7 @@ class Nav extends Component {
       .then((data) => {
          this.props.refreshSongList(data);
       })
+      /* TODO: get audio features */
    }
 
    render() {
