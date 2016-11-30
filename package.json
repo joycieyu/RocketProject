@@ -12,6 +12,7 @@
     "react-dom": "^15.4.1",
     "react-responsive-audio-player": "^1.1.1",
     "react-tap-event-plugin": "^2.0.1",
+    "spotify-web-api-js": "^0.21.1",
     "whatwg-fetch": "^2.0.1"
   },
   "scripts": {
