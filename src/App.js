@@ -6,6 +6,8 @@ import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import FetchController from './FetchController';
+import SearchHome from './SearchHome';
+//import VisualPage from './Visualizer';
 
 injectTapEventPlugin();
 
@@ -40,13 +42,14 @@ class App extends Component {
          <div>
             <Nav refreshSongList={this.refreshSongList}/>
             <div className="container">
-            {this.state.songList.length > 0 &&
-               <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
-            }
+             <SearchHome />
+             {this.state.songList.length > 0 &&
+                  <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
+             }              
+             {this.state.nowPlaying.length > 0 && 
+                <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/> 
+             }
             </div>
-            {this.state.nowPlaying.length > 0 && 
-               <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/>
-            }
          </div>
       );
    }

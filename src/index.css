@@ -6,6 +6,9 @@
 span[type=button] {
    -webkit-appearance: none;
 }
+html [type="button"] {
+   -webkit-appearance: none;
+}
 a[type=button] {
    -webkit-appearance: none;
 }
