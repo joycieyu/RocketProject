@@ -19,7 +19,7 @@ class App extends Component {
       super(props);
       this.state = ({
          songList: [],
-         audioFeatureData: {},
+         audioFeatureResults: {},
          nowPlaying: []
       });
    }
@@ -35,7 +35,7 @@ class App extends Component {
    refreshSongList = (data, audioFeatureData) => {
       this.setState({
          songList: data.tracks.items,
-         audioFeatures: audioFeatureData.audio_features
+         audioFeatureResults: audioFeatureData.audio_features
       });
       console.log(this.state);
    }
