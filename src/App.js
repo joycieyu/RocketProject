@@ -122,7 +122,7 @@ class SongList extends Component {
       var songCards = this.props.songList.map((song, index) => {
          return <GridTile key={index} title={song.name} subtitle={song.artists[0].name} 
             actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50}/></IconButton>}>
-                  <img src={song.album.images[1].url} />
+                  <img src={song.album.images[1].url} alt="album art" />
          </GridTile>
       });
 
