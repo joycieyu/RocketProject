@@ -42,8 +42,8 @@ if (access_token && (state == null || state !== storedState)) {
 }
 
 var goToSpotifyLogin = () => {
-   var client_id = 'b4157a6471104362b9205add6f5b5621'; // Your client id
-   var redirect_uri = 'http://localhost:3000/'; // Your redirect uri
+   var client_id = 'b4157a6471104362b9205add6f5b5621';
+   var redirect_uri = 'http://localhost:3000/';
 
    var state = generateRandomString(16);
 

@@ -6,25 +6,39 @@ import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import FetchController from './FetchController';
+import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
+import _ from 'lodash';
 //import VisualPage from './Visualizer';
 
 injectTapEventPlugin();
+var s = new SpotifyApi();
 
 class App extends Component {
    constructor(props) {
       super(props);
       this.state = ({
          songList: [],
+         audioFeatureData: {},
          nowPlaying: []
       });
    }
 
+   componentDidMount() {
+      // if logged in, set access token
+      if (params.access_token) {
+         s.setAccessToken(params.access_token);
+      }
+   }
+
    // show list of songs returned by the search query
-   refreshSongList = (data) => {
-      console.log(data.tracks.items);
-      this.setState({songList: data.tracks.items});
+   refreshSongList = (data, audioFeatureData) => {
+      this.setState({
+         songList: data.tracks.items,
+         audioFeatures: audioFeatureData.audio_features
+      });
+      console.log(this.state);
    }
 
    // add a new song to the play list
@@ -44,7 +58,7 @@ class App extends Component {
             <Nav refreshSongList={this.refreshSongList}/>
             <div className="container">
              <SearchHome />
-             {!params && 
+             {_.isEmpty(params) && 
                 <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
              }
              {this.state.songList.length > 0 &&
@@ -73,11 +87,17 @@ class Nav extends Component {
 
    // search for songs
    onNewRequest = (query) => {
-      FetchController.fetchData('https://api.spotify.com/v1/search?type=track&q='+query)
+      s.searchTracks(query)
       .then((data) => {
-         this.props.refreshSongList(data);
+         console.log(data);
+         var idMap = data.tracks.items.map((song) => {
+            return song.id;
+         });
+         s.getAudioFeaturesForTracks(idMap)
+         .then((audioFeatureData) => {
+            this.props.refreshSongList(data, audioFeatureData);
+         })
       })
-      /* TODO: get audio features */
    }
 
    render() {
