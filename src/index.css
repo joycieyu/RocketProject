@@ -24,3 +24,8 @@ a[type=button] {
     float: center;
     justify-content: center;
 }
+
+.fireSmall {
+    width: 2em;
+    height: 2em;
+}
