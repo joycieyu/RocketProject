@@ -62,11 +62,11 @@ class App extends Component {
              }
              {this.state.songList.length > 0 &&
                   <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
-             }              
+             }       
+             </div>       
              {this.state.nowPlaying.length > 0 && 
                 <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/> 
              }
-            </div>
          </div>
       );
    }
