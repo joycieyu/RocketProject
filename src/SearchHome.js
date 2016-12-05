@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import SelectField from 'material-ui/SelectField';
+import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import './SearchHomeStyle.css';
 
 
 const styles = {
   customWidth: {
-    width: 150,
+    width: 600,
   },
 };
 
@@ -19,20 +19,21 @@ class SearchHome extends Component {
   handleChange = (event, index, value) => this.setState({value});
     render() {
         return (
-            <div className="centered container">
-            <p>It's Lit Fam</p>
-            <SelectField 
-            floatingLabelText="Select Mood"
-            value={this.state.value}
-            onChange={this.handleChange}
-            autoWidth={true}
+            <div className="container centered">
+            <p><img src="./fire.png" alt="fire icon" height="100" width="100" />It's Lit Fam</p>
+            
+            <DropDownMenu
+                value={this.state.value}
+                onChange={this.handleChange}
+                style={styles.customWidth}
+                autoWidth={false}
             >
                 <MenuItem value={1} primaryText="Happy" />
                 <MenuItem value={2} primaryText="Angry" />
                 <MenuItem value={3} primaryText="Calm" />
                 <MenuItem value={4} primaryText="Sad" />
                 <MenuItem value={5} primaryText="Surprised" />
-            </SelectField>
+            </DropDownMenu>      
         </div>
         );
     }
