@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import './index.css';
 import './SearchHomeStyle.css';
 
 
