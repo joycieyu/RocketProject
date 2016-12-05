@@ -7,4 +7,5 @@ p {
 .centered {
     float: center;
     justify-content: center;
+    text-align: center;
 }

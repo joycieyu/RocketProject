@@ -20,7 +20,7 @@ class SearchHome extends Component {
     render() {
         return (
             <div className="centered container">
-            <p>It's Lit Fam</p>
+            <p><img src="./fire.png" alt="fire icon" height="100" width="100" />It's Lit Fam</p>
             <SelectField 
             floatingLabelText="Select Mood"
             value={this.state.value}

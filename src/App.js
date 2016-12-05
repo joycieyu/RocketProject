@@ -55,17 +55,17 @@ class App extends Component {
       return (
          <div>
             <Nav refreshSongList={this.refreshSongList}/>
-            <div className="container">
+            <div className="container centered">
+            	{this.state.songList.length == 0 &&
+                <SearchHome />
+             }
              {_.isEmpty(params) && 
                 <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
              }
              {this.state.songList.length > 0 &&
-                  <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
+                <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
              }       
              </div>
-             {this.state.songList.length == 0 &&
-                   <SearchHome />
-             }
              {this.state.nowPlaying.length > 0 && 
                 <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/> 
              }
@@ -113,6 +113,10 @@ class Nav extends Component {
                      onUpdateInput={this.onUpdateInput} 
                      onNewRequest={this.onNewRequest}
                   />}
+                  iconElementLeft={
+                        <a href="/#"><img src="./fire.png" alt="fire icon" height="42" width="42" />
+                        </a>
+                  }
             />
          </div>
       );
