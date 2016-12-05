@@ -4,6 +4,8 @@ import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Sub
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
@@ -106,11 +108,21 @@ class Nav extends Component {
                title="It's Lit Fam"
                style={styles.appBarStyle}
                iconElementRight={
-                  <AutoComplete hintText="Type your mood here..." 
-                     dataSource={this.state.dataSource} 
-                     onUpdateInput={this.onUpdateInput} 
-                     onNewRequest={this.onNewRequest}
-                  />}
+            
+            <SelectField 
+                  hintText="Select your mood ..."
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                  autoWidth={true}
+                  >
+                <MenuItem value={1} primaryText="Happy" />
+                <MenuItem value={2} primaryText="Angry" />
+                <MenuItem value={3} primaryText="Calm" />
+                <MenuItem value={4} primaryText="Sad" />
+                <MenuItem value={5} primaryText="Surprised" />
+            </SelectField>
+      
+}
             />
          </div>
       );
