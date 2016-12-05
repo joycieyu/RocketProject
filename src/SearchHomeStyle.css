@@ -1,7 +1,8 @@
 p {
     font-size: 6rem;
     font-weight: 900;
-    text-align: center;
+    padding: 10px;
+    margin: 10px;
 }
 
 .centered {

@@ -55,12 +55,12 @@ class App extends Component {
       return (
          <div>
             <Nav refreshSongList={this.refreshSongList}/>
-            <div className="container centered">
+            <div className="container">
             	{this.state.songList.length == 0 &&
                 <SearchHome />
              }
              {_.isEmpty(params) && 
-                <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
+                <RaisedButton label="Login with Spotify to continue" className="centered" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
              }
              {this.state.songList.length > 0 &&
                 <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>

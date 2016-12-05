@@ -10,7 +10,8 @@ const styles = {
    audioPlayerStyle: {
       position: 'fixed',
       bottom: 0
-   }
+   },
+
 };
 
 export default styles;
