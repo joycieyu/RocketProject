@@ -63,16 +63,13 @@ class App extends Component {
                 <RaisedButton label="Login with Spotify to continue" className="centered" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
              }
              {this.state.songList.length > 0 &&
-<<<<<<< HEAD
                   <SongList songList={this.state.songList} updateParent={this.updateNowPlaying} playlist={this.state.nowPlaying}/>
              }            
              {this.state.nowPlaying.length > 0 &&
-=======
                 <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
              }       
              </div>
              {this.state.nowPlaying.length > 0 && 
->>>>>>> d594a48e31ee187b172c703723961f1030d6b0ae
                 <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/> 
              }
          </div>
