@@ -56,7 +56,6 @@ class App extends Component {
          <div>
             <Nav refreshSongList={this.refreshSongList}/>
             <div className="container">
-             <SearchHome />
              {_.isEmpty(params) && 
                 <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
              }
@@ -65,6 +64,9 @@ class App extends Component {
              }              
              {this.state.nowPlaying.length > 0 && 
                 <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/> 
+             }
+             {this.state.songList.length == 0 &&
+                   <SearchHome />
              }
             </div>
          </div>
