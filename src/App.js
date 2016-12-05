@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Subheader }   from 'material-ui';
+import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Subheader, Drawer, ListItem, List }   from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -61,9 +61,9 @@ class App extends Component {
                 <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
              }
              {this.state.songList.length > 0 &&
-                  <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
-             }              
-             {this.state.nowPlaying.length > 0 && 
+                  <SongList songList={this.state.songList} updateParent={this.updateNowPlaying} playlist={this.state.nowPlaying}/>
+             }            
+             {this.state.nowPlaying.length > 0 &&
                 <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/> 
              }
             </div>
@@ -118,16 +118,34 @@ class Nav extends Component {
 }
 
 class SongList extends Component {
+    constructor(props) {
+    super(props);
+    this.state = {open: false};
+  }
+
+  handleToggle = () => this.setState({open: !this.state.open});
    render() {
       var songCards = this.props.songList.map((song, index) => {
          return <GridTile key={index} title={song.name} subtitle={song.artists[0].name} 
             actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50}/></IconButton>}>
                   <img src={song.album.images[1].url} alt="album art" />
          </GridTile>
+      
+      });
+      var nowPlayingPlaylist = this.props.playlist.map((song, index) => {
+            return <ListItem key={index} disabled nestedListStyle={{backgroundColor: "black", opacity:"0.3"}} primaryText={song.displayText} />
       });
 
       return (
          <div>
+            <RaisedButton label="Toggle Drawer" onTouchTap={this.handleToggle}/>
+            <Drawer width={300} openSecondary={true} open={this.state.open} >
+            <List>
+                  <Subheader>NowPlaying</Subheader>
+                  {nowPlayingPlaylist}
+            </List>
+            </Drawer>
+            
             <GridList
                cellHeight={180}
                style={styles.songListStyle}
@@ -135,6 +153,7 @@ class SongList extends Component {
             <Subheader>Results</Subheader>
             {songCards}
             </GridList>
+            
          </div>
       );
    }
