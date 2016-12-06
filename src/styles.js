@@ -3,6 +3,7 @@ const styles = {
       position: 'fixed'
    },
    songListStyle: {
+      margin: 0,
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-around'

@@ -9,9 +9,7 @@ import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
 import _ from 'lodash';
-
-import ReactDOM from 'react-dom';
-import {Layer, Rect, Stage, Group} from "react-konva";
+import { Layer, Rect, Stage, Group } from "react-konva";
 import Konva from "konva";
 
 injectTapEventPlugin();
@@ -248,7 +246,7 @@ class SongList extends Component {
       return (
          <div>
             <div className="centered"><RaisedButton label="Toggle Drawer" onTouchTap={this.handleToggle} style={styles.buttonStyle}/></div>
-            <Drawer width={300} openSecondary={true} open={this.state.open} >
+            <Drawer docked={false} width={200} open={this.state.open} onRequestChange={(open) => this.setState({open})} >
                <List>
                   <Subheader>Now Playing</Subheader>
                   {nowPlayingPlaylist}
@@ -262,7 +260,6 @@ class SongList extends Component {
                <Subheader>Results</Subheader>
                {songCards}
             </GridList>
-
          </div>
       );
    }
