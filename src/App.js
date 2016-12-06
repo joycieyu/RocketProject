@@ -116,7 +116,9 @@ class App extends Component {
    render() {
       return (
          <div>
-            <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
+            {this.state.songList.length > 0 &&
+              <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
+            }
             <div className="container">
                {this.state.songList.length === 0 &&
                   <SearchHome />
@@ -127,8 +129,10 @@ class App extends Component {
                         onTouchTap={() => goToSpotifyLogin()} />
                   </div>
                }
-							 <MyRect/>
 
+               {this.state.songList.length > 0 &&
+							   <MyRect/>
+               }
                <Subheader>Danceability</Subheader>
                <Slider
                   defaultValue={0.5}
@@ -186,6 +190,15 @@ class App extends Component {
                <AudioPlayer autoplay ref="playerRef" style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
             }
             <Dialogs loginOpen={this.state.loginOpen} loginClose={this.handleLoginClose}/>
+
+            <div className="container">
+              <footer>
+              <p> made by team rocket </p>
+              </footer>
+            </div>
+
+            
+
          </div>
       );
    }
@@ -206,6 +219,7 @@ class MyRect extends React.Component {
     }
     render() {
         return (
+          <div className="container centered">
             <Stage width={window.innerWidth / 2} height={100} >
                <Layer>
                   <Rect
@@ -216,6 +230,7 @@ class MyRect extends React.Component {
                   />
                </Layer>
             </Stage>
+          </div>
         );
     }
 }

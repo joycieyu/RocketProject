@@ -5,19 +5,19 @@ import './SearchHomeStyle.css';
 
 
 const styles = {
-   customWidth: {
-      width: "100%",
-   },
+	customWidth: {
+		width: "100%",
+	},
 };
 
 class SearchHome extends Component {
-   render() {
-      return (
-         <div id="home" className="container">
-            <p className="centered"><img src="./fire.png" alt="fire icon" className="fireBig" aria-hidden="true" />It's Lit Fam</p>
-         </div>
-      );
-   }
+	render() {
+		return (
+			<div id="home" className="container">
+				<p className="centered"><img src="./fire.png" alt="fire icon" className="fireBig" aria-hidden="true" />It's Lit Fam</p>
+			</div>
+		);
+	}
 }
 
 export default SearchHome;
