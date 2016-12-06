@@ -9,8 +9,6 @@ import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
 import _ from 'lodash';
-//import Example from 
-//import VisualPage from './Visualizer';
 
 injectTapEventPlugin();
 var s = new SpotifyApi();
@@ -38,11 +36,9 @@ class App extends Component {
 
    // show list of songs returned by the search query
    refreshSongList = (data) => {
-      console.log("what's data", data)
       this.setState({
          songList: data.tracks
       });
-      //console.log(this.state);
    }
 
    // add a new song to the play list
@@ -146,14 +142,12 @@ class Nav extends Component {
 
    // search for songs
    onNewRequest = (query) => {
-      console.log("all state", this.props);
       s.getMyTopTracks()
          .then((data) => {
             var trackSeed = data.items[0].id;
             s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.props.userFeatureValue.loudness, target_tempo: this.props.userFeatureValue.tempo, 
                                     target_valence: this.props.userFeatureValue.valence, target_energy: this.props.userFeatureValue.energy, target_danceability: this.props.userFeatureValue.danceability })
                .then((recommendedSongObject) => {
-                  console.log("here it is", recommendedSongObject);
                   this.props.refreshSongList(recommendedSongObject);
                })
          })
@@ -197,7 +191,6 @@ class SongList extends Component {
 
       });
       var nowPlayingPlaylist = this.props.nowPlaying.map((song, index) => {
-         console.log(song);
          return <ListItem key={index} disabled nestedListStyle={{ backgroundColor: "black", opacity: "0.3" }} primaryText={song.displayText} />
       });
 
