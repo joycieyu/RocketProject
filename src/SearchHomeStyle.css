@@ -10,3 +10,12 @@ p {
     justify-content: center;
     text-align: center;
 }
+
+#home {
+    margin-bottom: 10px;
+}
+
+.fireBig {
+    width: 6rem;
+    height: 6rem;
+}

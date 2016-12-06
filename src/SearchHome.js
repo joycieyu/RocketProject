@@ -6,7 +6,7 @@ import './SearchHomeStyle.css';
 
 const styles = {
   customWidth: {
-    width: 600,
+    width: "100%",
   },
 };
 
@@ -19,8 +19,8 @@ class SearchHome extends Component {
   handleChange = (event, index, value) => this.setState({value});
     render() {
         return (
-            <div className="container centered">
-            <p><img src="./fire.png" alt="fire icon" height="100" width="100" />It's Lit Fam</p>
+            <div id="home" className="container">
+            <p className="centered"><img src="./fire.png" alt="fire icon" className="fireBig" aria-hidden="true"/>It's Lit Fam</p>
             
             <DropDownMenu
                 value={this.state.value}

@@ -62,7 +62,7 @@ class App extends Component {
                 <SearchHome />
              }
              {_.isEmpty(params) && 
-                <RaisedButton label="Login with Spotify to continue" className="centered" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
+                <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
              }
              {this.state.songList.length > 0 &&
                   <SongList songList={this.state.songList} updateParent={this.updateNowPlaying} playlist={this.state.nowPlaying}/>
@@ -126,7 +126,7 @@ class Nav extends Component {
                      onNewRequest={this.onNewRequest}
                   />}
                   iconElementLeft={
-                        <a href="/#"><img src="./fire.png" alt="fire icon" height="42" width="42" />
+                        <a href="/#" aria-hidden="true"><img src="./fire.png" alt="fire icon" className="fireSmall" />
                         </a>
                   }
             />
