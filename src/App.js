@@ -171,16 +171,18 @@ class MyRect extends React.Component {
     }
     render() {
         return (
-					<Stage width={700} height={100} >
+           <div>
+					<Stage width={window.innerWidth / 2} height={100} >
 						<Layer>
-            <Rect
-                x={10} y={10} width={650} height={50}
-                fill={this.state.color}
-                shadowBlur={10}
-								onClick={this.handleClick}
-            />	
-							</Layer>
-						</Stage>
+                     <Rect
+                        x={10} y={10} width={window.innerWidth / 3} height={50}
+                        fill={this.state.color}
+                        shadowBlur={10}
+                                 onClick={this.handleClick}
+                     />
+                  </Layer>
+               </Stage>
+            </div>
         );
     }
 }
