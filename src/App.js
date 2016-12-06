@@ -37,7 +37,7 @@ class App extends Component {
          songList: data.tracks.items,
          audioFeatureResults: audioFeatureData.audio_features
       });
-      console.log(this.state);
+      console.log("hello", this.state);
    }
 
    // add a new song to the play list
