@@ -9,13 +9,11 @@ import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
 import _ from 'lodash';
-<<<<<<< HEAD
+
 import ReactDOM from 'react-dom';
 import {Layer, Rect, Stage, Group} from "react-konva";
 import Konva from "konva";
-=======
-//import Example from 
->>>>>>> 2072cfdfbb6a08dc34c75a2da26ea436be3e0de3
+
 //import VisualPage from './Visualizer';
 
 injectTapEventPlugin();
@@ -48,11 +46,11 @@ class App extends Component {
       this.setState({
          songList: data.tracks
       });
-<<<<<<< HEAD
+
       console.log("hello", this.state);
-=======
+
       //console.log(this.state);
->>>>>>> 2072cfdfbb6a08dc34c75a2da26ea436be3e0de3
+
    }
 
    // add a new song to the play list
@@ -96,11 +94,9 @@ class App extends Component {
                {_.isEmpty(params) &&
                   <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()} />
                }
-<<<<<<< HEAD
 							 <MyRect/>
-=======
                <Subheader>Danceability</Subheader>
->>>>>>> 2072cfdfbb6a08dc34c75a2da26ea436be3e0de3
+
                <Slider
                   defaultValue={0.5}
                   value={this.state.danceability}
