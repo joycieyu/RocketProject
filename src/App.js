@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, style, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
+import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -111,12 +111,14 @@ class App extends Component {
                   defaultValue={0.5}
                   value={this.state.danceability}
                   onChange={this.handleDanceability}
+                  sliderStyle={styles.sliderStyle}
                   />
                <Subheader>Energy</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.energy}
                   onChange={this.handleEnergy}
+                  sliderStyle={styles.sliderStyle}
                   />
                <Subheader>Loudness</Subheader>
                <Slider
@@ -125,6 +127,7 @@ class App extends Component {
                   max={0}
                   value={this.state.loudness}
                   onChange={this.handleLoudness}
+                  sliderStyle={styles.sliderStyle}
                   />
                <Subheader>Tempo</Subheader>
                <Slider
@@ -133,15 +136,17 @@ class App extends Component {
                   defaultValue={120}
                   value={this.state.tempo}
                   onChange={this.handleTempo}
+                  sliderStyle={styles.sliderStyle}
                   />
                <Subheader>Valence</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.valence}
                   onChange={this.handleValence}
+                  sliderStyle={styles.sliderStyle}
                   />
 
-                  <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={style} />
+                  <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} />
                {this.state.songList.length > 0 &&
                   <SongList songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
                }
@@ -221,7 +226,7 @@ class SongList extends Component {
 
       });
       var nowPlayingPlaylist = this.props.nowPlaying.map((song, index) => {
-         return <ListItem key={index} disabled nestedListStyle={{ backgroundColor: "black", opacity: "0.3" }} primaryText={song.displayText} />
+         return <ListItem key={index} disabled nestedListStyle={styles.listItemStyle} primaryText={song.displayText} />
       });
 
       return (
