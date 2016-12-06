@@ -66,9 +66,16 @@ class App extends Component {
                 <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
              }       
              </div>
-             {this.state.nowPlaying.length > 0 && 
-                <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/> 
-             }
+             <div className="container footer-background">
+                  <footer>
+                        <p>2016 Jacob Devera, Benny Souriyadeth, Sopheak Neak, Joycie Yu
+                        <span><a href="https://github.com/joycieyu/RocketProject">GitHub</a></span></p>
+                  </footer>
+            </div>
+            {this.state.nowPlaying.length > 0 && 
+            <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/> 
+            }
+             
          </div>
       );
    }
@@ -114,7 +121,7 @@ class Nav extends Component {
                      onNewRequest={this.onNewRequest}
                   />}
                   iconElementLeft={
-                        <a href="/#" aria-hidden="true"><img src="./fire.png" alt="fire icon" className="fireSmall" />
+                        <a href="reload()" aria-hidden="true"><img src="./fire.png" alt="fire icon" className="fireSmall" />
                         </a>
                   }
             />

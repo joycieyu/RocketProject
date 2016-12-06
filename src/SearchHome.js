@@ -20,7 +20,7 @@ class SearchHome extends Component {
     render() {
         return (
             <div id="home" className="container">
-            <p className="centered"><img src="./fire.png" alt="fire icon" className="fireBig" aria-hidden="true"/>It's Lit Fam</p>
+            <p id="litTitle" className="centered"><img src="./fire.png" alt="fire icon" className="fireBig" aria-hidden="true"/>It's Lit Fam</p>
             
             <DropDownMenu
                 value={this.state.value}

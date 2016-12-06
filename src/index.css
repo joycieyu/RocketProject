@@ -29,3 +29,16 @@ a[type=button] {
     width: 2em;
     height: 2em;
 }
+
+footer p {
+    font-size: smaller;
+    margin-bottom: 0;
+}
+
+.footer-background {
+    background-color: cyan50;
+}
+
+footer span {
+    float: right;
+}
