@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader } from 'material-ui';
+import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -9,6 +9,7 @@ import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
 import _ from 'lodash';
+//import Example from 
 //import VisualPage from './Visualizer';
 
 injectTapEventPlugin();
@@ -38,8 +39,9 @@ class App extends Component {
 
    // show list of songs returned by the search query
    refreshSongList = (data, audioFeatureData) => {
+      console.log("next after", data)
       this.setState({
-         songList: data.tracks.items,
+         songList: data.items,
          audioFeatureResults: audioFeatureData.audio_features
       });
       console.log(this.state);
@@ -138,15 +140,13 @@ class Nav extends Component {
 
    // search for songs
    onNewRequest = (query) => {
-      s.searchTracks(query)
+      s.getMyTopTracks()
          .then((data) => {
-            console.log(data);
-            var idMap = data.tracks.items.map((song) => {
-               return song.id;
-            });
-            s.getAudioFeaturesForTracks(idMap)
-               .then((audioFeatureData) => {
-                  this.props.refreshSongList(data, audioFeatureData);
+            var trackSeed = data.items[0].id;
+            s.getRecommendations({ limit: 50, seed_tracks: trackSeed, min_energy: 0.4, min_popularity: 50 })
+               .then((recommendedSongObject) => {
+                  console.log("here it is", recommendedSongObject);
+                  //this.props.refreshSongList(data, audioFeatureData);
                })
          })
    }
@@ -174,16 +174,34 @@ class Nav extends Component {
 }
 
 class SongList extends Component {
+   constructor(props) {
+      super(props);
+      this.state = { open: false };
+   }
+
+   handleToggle = () => this.setState({ open: !this.state.open });
    render() {
       var songCards = this.props.songList.map((song, index) => {
          return <GridTile key={index} title={song.name} subtitle={song.artists[0].name}
             actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50} /></IconButton>}>
             <img src={song.album.images[1].url} alt="album art" />
          </GridTile>
+
+      });
+      var nowPlayingPlaylist = this.props.playlist.map((song, index) => {
+         return <ListItem key={index} disabled nestedListStyle={{ backgroundColor: "black", opacity: "0.3" }} primaryText={song.displayText} />
       });
 
       return (
          <div>
+            <RaisedButton label="Toggle Drawer" onTouchTap={this.handleToggle} />
+            <Drawer width={300} openSecondary={true} open={this.state.open} >
+               <List>
+                  <Subheader>NowPlaying</Subheader>
+                  {nowPlayingPlaylist}
+               </List>
+            </Drawer>
+
             <GridList
                cellHeight={180}
                style={styles.songListStyle}
@@ -191,6 +209,7 @@ class SongList extends Component {
                <Subheader>Results</Subheader>
                {songCards}
             </GridList>
+
          </div>
       );
    }
