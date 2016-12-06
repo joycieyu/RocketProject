@@ -119,7 +119,7 @@ class App extends Component {
                {this.state.songList.length > 0 &&
 							   <MyRect/>
                }
-               <Subheader>Danceability</Subheader>
+               <Subheader>How much do you want to dance?</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.danceability}
@@ -127,7 +127,7 @@ class App extends Component {
                   style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
-               <Subheader>Energy</Subheader>
+               <Subheader>How pumped are you?</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.energy}
@@ -135,7 +135,7 @@ class App extends Component {
                   style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
-               <Subheader>Loudness</Subheader>
+               <Subheader>How loud do you want your music?</Subheader>
                <Slider
                   defaultValue={-30}
                   min={-60}
@@ -145,7 +145,7 @@ class App extends Component {
                   style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
-               <Subheader>Tempo</Subheader>
+               <Subheader>How fast do you want the beat?</Subheader>
                <Slider
                   min={60}
                   max={180}
@@ -155,7 +155,7 @@ class App extends Component {
                   style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
-               <Subheader>Valence</Subheader>
+               <Subheader>How happy do you want your tunes?</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.valence}
