@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Subheader }   from 'material-ui';
+import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader } from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -20,7 +20,12 @@ class App extends Component {
       this.state = ({
          songList: [],
          audioFeatureResults: {},
-         nowPlaying: []
+         nowPlaying: [],
+         danceability: 0,
+         energy: 0,
+         loudness: 0,
+         tempo: 0,
+         valence: 0
       });
    }
 
@@ -43,32 +48,77 @@ class App extends Component {
    // add a new song to the play list
    updateNowPlaying = (song) => {
       console.log(this.state.nowPlaying);
-      this.setState({ 
+      this.setState({
          nowPlaying: this.state.nowPlaying.concat([{
             url: song.preview_url,
             displayText: song.name + ' - ' + song.artists[0].name
-         }]) 
+         }])
       });
    }
+
+   handleDanceability = (event, value) => {
+      this.setState({ danceability: value });
+   };
+
+   handleEnergy = (event, value) => {
+      this.setState({ energy: value });
+   };
+
+   handleLoudness = (event, value) => {
+      this.setState({ loudness: value });
+   };
+
+   handleTempo = (event, value) => {
+      this.setState({ tempo: value });
+   };
+
+   handleValence = (event, value) => {
+      this.setState({ valence: value });
+   };
 
    render() {
       return (
          <div>
-            <Nav refreshSongList={this.refreshSongList}/>
+            <Nav refreshSongList={this.refreshSongList} />
             <div className="container">
-            	{this.state.songList.length === 0 &&
-                <SearchHome />
-             }
-             {_.isEmpty(params) && 
-                <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()}/>
-             }
-             {this.state.songList.length > 0 &&
-                <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
-             }       
-             </div>
-             {this.state.nowPlaying.length > 0 && 
-                <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying}/> 
-             }
+               {this.state.songList.length === 0 &&
+                  <SearchHome />
+               }
+               {_.isEmpty(params) &&
+                  <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()} />
+               }
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.danceability}
+                  onChange={this.handleDanceability}
+                  />
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.energy}
+                  onChange={this.handleEnergy}
+                  />
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.loudness}
+                  onChange={this.handleLoudness}
+                  />
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.tempo}
+                  onChange={this.handleTempo}
+                  />
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.valence}
+                  onChange={this.handleValence}
+                  />
+               {this.state.songList.length > 0 &&
+                  <SongList songList={this.state.songList} updateParent={this.updateNowPlaying} />
+               }
+            </div>
+            {this.state.nowPlaying.length > 0 &&
+               <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
+            }
          </div>
       );
    }
@@ -83,22 +133,22 @@ class Nav extends Component {
    }
 
    onUpdateInput = (inputValue) => {
-      this.setState({inputValue: inputValue});
+      this.setState({ inputValue: inputValue });
    }
 
    // search for songs
    onNewRequest = (query) => {
       s.searchTracks(query)
-      .then((data) => {
-         console.log(data);
-         var idMap = data.tracks.items.map((song) => {
-            return song.id;
-         });
-         s.getAudioFeaturesForTracks(idMap)
-         .then((audioFeatureData) => {
-            this.props.refreshSongList(data, audioFeatureData);
+         .then((data) => {
+            console.log(data);
+            var idMap = data.tracks.items.map((song) => {
+               return song.id;
+            });
+            s.getAudioFeaturesForTracks(idMap)
+               .then((audioFeatureData) => {
+                  this.props.refreshSongList(data, audioFeatureData);
+               })
          })
-      })
    }
 
    render() {
@@ -108,16 +158,16 @@ class Nav extends Component {
                title="It's Lit Fam"
                style={styles.appBarStyle}
                iconElementRight={
-                  <AutoComplete hintText="Type your mood here..." 
-                     dataSource={this.state.dataSource} 
-                     onUpdateInput={this.onUpdateInput} 
+                  <AutoComplete hintText="Type your mood here..."
+                     dataSource={this.state.dataSource}
+                     onUpdateInput={this.onUpdateInput}
                      onNewRequest={this.onNewRequest}
-                  />}
-                  iconElementLeft={
-                        <a href="/#" aria-hidden="true"><img src="./fire.png" alt="fire icon" className="fireSmall" />
-                        </a>
-                  }
-            />
+                     />}
+               iconElementLeft={
+                  <a href="/#" aria-hidden="true"><img src="./fire.png" alt="fire icon" className="fireSmall" />
+                  </a>
+               }
+               />
          </div>
       );
    }
@@ -126,9 +176,9 @@ class Nav extends Component {
 class SongList extends Component {
    render() {
       var songCards = this.props.songList.map((song, index) => {
-         return <GridTile key={index} title={song.name} subtitle={song.artists[0].name} 
-            actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50}/></IconButton>}>
-                  <img src={song.album.images[1].url} alt="album art" />
+         return <GridTile key={index} title={song.name} subtitle={song.artists[0].name}
+            actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50} /></IconButton>}>
+            <img src={song.album.images[1].url} alt="album art" />
          </GridTile>
       });
 
@@ -137,9 +187,9 @@ class SongList extends Component {
             <GridList
                cellHeight={180}
                style={styles.songListStyle}
-            >
-            <Subheader>Results</Subheader>
-            {songCards}
+               >
+               <Subheader>Results</Subheader>
+               {songCards}
             </GridList>
          </div>
       );
