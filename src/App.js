@@ -9,6 +9,7 @@ import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
 import _ from 'lodash';
+//import Example from 
 //import VisualPage from './Visualizer';
 
 injectTapEventPlugin();
@@ -33,7 +34,7 @@ class App extends Component {
 
    // show list of songs returned by the search query
    refreshSongList = (data, audioFeatureData) => {
-         console.log("next after", data.items)
+         console.log("next after", data)
       this.setState({
          songList: data.items,
          audioFeatureResults: audioFeatureData.audio_features
@@ -47,7 +48,7 @@ class App extends Component {
       this.setState({ 
          nowPlaying: this.state.nowPlaying.concat([{
             url: song.preview_url,
-            displayText: song.track.name + ' - ' + song.track.artists[0].name
+            displayText: song.name + ' - ' + song.artists[0].name
          }]) 
       });
    }
@@ -89,29 +90,21 @@ class Nav extends Component {
 
    // search for songs
    onNewRequest = (query) => {
-      s.getFeaturedPlaylists()
-      .then((data) => {
-         
-         var idUser = data.playlists.items[0].owner.id;
-         var idPlaylist = data.playlists.items[0].id;
-         s.getPlaylistTracks(idUser,idPlaylist)
-         .then((testing) =>{
-               //console.log("object",testing);
-               //console.log(testing.items);
-         //console.log("playlist id",data.playlists.items[0].id);
-         //console.log("playlist id",idPlaylist);
-         //console.log("userid",idUser);
-             var idMap = testing.items.map((song) => {
-                  return song.track.id;
-                  //return testing;
-             })
-             s.getAudioFeaturesForTracks(idMap)
-             .then((audioFeatureData) => {
-                  //console.log("here it is",audioFeatureData);
-                  this.props.refreshSongList(testing, audioFeatureData);
-             })
-          });
-         //})
+         s.getRecommendations({limit:50,min_tempo:140,target_energy:0.6})
+         .then((data) => {
+               console.log("songobc",data);
+      //        var idMap = data.albums.items.map((song) => {
+      //              //console.log("id",song.id);
+      //             return song.id;
+      //             //return testing;
+      //        })
+      // //       s.getAudioFeaturesForTracks(idMap)
+      // //        .then((audioFeatureData) => {
+      // //             //console.log("here it is",audioFeatureData);
+      // //             this.props.refreshSongList(testing, audioFeatureData);
+      // //        })
+      // // uncomment here     });
+      // //    //})
       //    s.getAudioFeaturesForTracks(idMap)
       //    .then((audioFeatureData) => {
       //          console.log("here it is",audioFeatureData);
@@ -152,9 +145,9 @@ class SongList extends Component {
    render() {
       var songCards = this.props.songList.map((song, index) => {
             console.log("pre error",song);
-         return <GridTile key={index} title={song.track.name} subtitle={song.track.artists[0].name} 
+         return <GridTile key={index} title={song.name} subtitle={song.artists[0].name} 
             actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50}/></IconButton>}>
-                  <img src={song.track.album.images[1].url} alt="album art" />
+                  <img src={song.album.images[1].url} alt="album art" />
          </GridTile>
       
       });

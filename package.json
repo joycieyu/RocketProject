@@ -6,11 +6,13 @@
     "react-scripts": "0.7.0"
   },
   "dependencies": {
+    "konva": "^1.2.2",
     "lodash": "^4.17.2",
     "material-ui": "^0.16.4",
     "normalize.css": "^5.0.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-konva": "^1.1.0",
     "react-responsive-audio-player": "^1.1.1",
     "react-tap-event-plugin": "^2.0.1",
     "spotify-web-api-js": "^0.21.1",
