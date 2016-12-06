@@ -238,7 +238,7 @@ class SongList extends Component {
 
       return (
          <div>
-            <RaisedButton label="Toggle Drawer" onTouchTap={this.handleToggle} />
+            <div className="centered"><RaisedButton label="Toggle Drawer" onTouchTap={this.handleToggle} style={styles.buttonStyle}/></div>
             <Drawer width={300} openSecondary={true} open={this.state.open} >
                <List>
                   <Subheader>Now Playing</Subheader>
