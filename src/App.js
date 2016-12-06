@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
+import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, style, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -28,7 +28,9 @@ class App extends Component {
          energy: 0.5,
          loudness: -30,
          tempo: 120,
-         valence: 0.5
+         valence: 0.5,
+         dataSource: [],
+         inputValue: ""
       });
    }
 
@@ -39,12 +41,27 @@ class App extends Component {
       }
    }
 
+    onUpdateInput = (inputValue) => {
+    this.setState({ inputValue: inputValue });
+   }
    // show list of songs returned by the search query
    refreshSongList = (data) => {
       this.setState({
          songList: data.tracks
       });
    }
+    onNewRequest = (query) => {
+    s.getMyTopTracks()
+        .then((data) => {
+          var trackSeed = data.items[0].id;
+          s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.props.userFeatureValue.loudness, target_tempo: this.props.userFeatureValue.tempo, 
+                                  target_valence: this.props.userFeatureValue.valence, target_energy: this.props.userFeatureValue.energy, target_danceability: this.props.userFeatureValue.danceability })
+              .then((recommendedSongObject) => {
+                this.props.refreshSongList(recommendedSongObject);
+              })
+        })
+   }
+
 
    // add a new song to the play list
    updateNowPlaying = (song) => {
@@ -88,8 +105,8 @@ class App extends Component {
                   <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()} />
                }
 							 <MyRect/>
-               <Subheader>Danceability</Subheader>
 
+               <Subheader>Danceability</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.danceability}
@@ -123,6 +140,8 @@ class App extends Component {
                   value={this.state.valence}
                   onChange={this.handleValence}
                   />
+
+                  <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={style} />
                {this.state.songList.length > 0 &&
                   <SongList songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
                }
@@ -168,43 +187,12 @@ class MyRect extends React.Component {
 
 
 class Nav extends Component {
-   constructor(props) {
-      super(props);
-      this.state = {
-         dataSource: [],
-         inputValue: ''
-      }
-   }
-
-   onUpdateInput = (inputValue) => {
-      this.setState({ inputValue: inputValue });
-   }
-
-   // search for songs
-   onNewRequest = (query) => {
-      s.getMyTopTracks()
-         .then((data) => {
-            var trackSeed = data.items[0].id;
-            s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.props.userFeatureValue.loudness, target_tempo: this.props.userFeatureValue.tempo, 
-                                    target_valence: this.props.userFeatureValue.valence, target_energy: this.props.userFeatureValue.energy, target_danceability: this.props.userFeatureValue.danceability })
-               .then((recommendedSongObject) => {
-                  this.props.refreshSongList(recommendedSongObject);
-               })
-         })
-   }
-
    render() {
       return (
          <div>
             <AppBar
                title="It's Lit Fam"
                style={styles.appBarStyle}
-               iconElementRight={
-                  <AutoComplete hintText="Type your mood here..."
-                     dataSource={this.state.dataSource}
-                     onUpdateInput={this.onUpdateInput}
-                     onNewRequest={this.onNewRequest}
-                     />}
                iconElementLeft={
                   <a href="/#" aria-hidden="true"><img src="./fire.png" alt="fire icon" className="fireSmall" />
                   </a>
