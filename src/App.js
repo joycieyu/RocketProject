@@ -87,26 +87,31 @@ class App extends Component {
                {_.isEmpty(params) &&
                   <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()} />
                }
+               <Subheader>Danceability</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.danceability}
                   onChange={this.handleDanceability}
                   />
+               <Subheader>Energy</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.energy}
                   onChange={this.handleEnergy}
                   />
+               <Subheader>Loudness</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.loudness}
                   onChange={this.handleLoudness}
                   />
+               <Subheader>Tempo</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.tempo}
                   onChange={this.handleTempo}
                   />
+               <Subheader>Valence</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.valence}
