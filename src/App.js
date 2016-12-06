@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
+import { AppBar, AutoComplete, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -29,7 +29,8 @@ class App extends Component {
          tempo: 120,
          valence: 0.5,
          dataSource: [],
-         inputValue: ""
+         inputValue: "",
+         loginOpen: false
       });
    }
 
@@ -50,15 +51,19 @@ class App extends Component {
       });
    }
    generateFireMixtape = () => {
-      s.getMyTopTracks()
-      .then((data) => {
-         var trackSeed = data.items[0].id;
-         s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.state.loudness, target_tempo: this.state.tempo, 
-                                 target_valence: this.state.valence, target_energy: this.state.energy, target_danceability: this.state.danceability })
-         .then((recommendedSongObject) => {
-            this.refreshSongList(recommendedSongObject);
+      if (!_.isEmpty(params)) {
+         s.getMyTopTracks()
+         .then((data) => {
+            var trackSeed = data.items[0].id;
+            s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.state.loudness, target_tempo: this.state.tempo, 
+                                    target_valence: this.state.valence, target_energy: this.state.energy, target_danceability: this.state.danceability })
+            .then((recommendedSongObject) => {
+               this.refreshSongList(recommendedSongObject);
+            })
          })
-      })
+      } else {
+         this.setState({ loginOpen: true });
+      }
    }
 
 
@@ -91,6 +96,10 @@ class App extends Component {
    handleValence = (event, value) => {
       this.setState({ valence: value });
    };
+
+   handleLoginClose = () => {
+      this.setState({ loginOpen: false });
+   }
 
    render() {
       return (
@@ -164,6 +173,7 @@ class App extends Component {
             {this.state.nowPlaying.length > 0 &&
                <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
             }
+            <Dialogs loginOpen={this.state.loginOpen} loginClose={this.handleLoginClose}/>
          </div>
       );
    }
@@ -180,7 +190,6 @@ class MyRect extends React.Component {
       this.setState({
         color: Konva.Util.getRandomColor()
       });
-			
 			
     }
     render() {
@@ -254,6 +263,35 @@ class SongList extends Component {
                {songCards}
             </GridList>
 
+         </div>
+      );
+   }
+}
+
+class Dialogs extends Component {
+   constructor(props) {
+      super(props);
+   }
+
+   render() {
+      const loginActions = [
+         <FlatButton
+            label="Okay"
+            primary={true}
+            onTouchTap={this.props.loginClose}
+         />
+      ];
+      return (
+         <div>
+            <Dialog
+               title="Hold up fam"
+               actions={loginActions}
+               modal={false}
+               open={this.props.loginOpen}
+               onRequestClose={this.props.loginClose}
+            >
+            You need to login with your Spotify account.
+            </Dialog>
          </div>
       );
    }
