@@ -28,3 +28,7 @@ a[type=button] {
     width: 2em;
     height: 2em;
 }
+
+footer p {
+    font-size: smaller;
+}
