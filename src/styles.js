@@ -17,6 +17,9 @@ const styles = {
    sliderStyle: {
       marginTop: "16px",
       marginBottom: "16px"
+   },
+   buttonStyle: {
+      marginBottom: "16px"
    }
 };
 

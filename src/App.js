@@ -102,7 +102,10 @@ class App extends Component {
                   <SearchHome />
                }
                {_.isEmpty(params) &&
-                  <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()} />
+                  <div className="centered">
+                     <RaisedButton label="Login with Spotify to continue" primary={true} style={styles.buttonStyle}
+                        onTouchTap={() => goToSpotifyLogin()} />
+                  </div>
                }
 							 <MyRect/>
 
@@ -146,7 +149,9 @@ class App extends Component {
                   sliderStyle={styles.sliderStyle}
                   />
 
-                  <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} />
+                  <div className="centered">
+                     <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={styles.buttonStyle} />
+                  </div>
                {this.state.songList.length > 0 &&
                   <SongList songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
                }
@@ -160,14 +165,14 @@ class App extends Component {
 }
 
 class MyRect extends React.Component {
-    constructor() {
-      super();
+    constructor(props) {
+      super(props);
       this.state = {
         color: 'green'
       };
-      this.handleClick = this.handleClick.bind(this);
     }
-    handleClick(event) {
+    handleClick = (event) => {
+       console.log(Konva.util.getRandomColor());
       this.setState({
         color: Konva.Util.getRandomColor()
       });
@@ -176,18 +181,16 @@ class MyRect extends React.Component {
     }
     render() {
         return (
-           <div>
-					<Stage width={window.innerWidth / 2} height={100} >
-						<Layer>
-                     <Rect
-                        x={10} y={10} width={window.innerWidth / 3} height={50}
-                        fill={this.state.color}
-                        shadowBlur={10}
-                                 onClick={this.handleClick}
-                     />
-                  </Layer>
-               </Stage>
-            </div>
+            <Stage width={window.innerWidth / 2} height={100} >
+               <Layer>
+                  <Rect
+                     x={10} y={10} width={window.innerWidth / 3} height={50}
+                     fill={this.state.color}
+                     shadowBlur={10}
+                     onClick={(e) => this.handleClick(e)}
+                  />
+               </Layer>
+            </Stage>
         );
     }
 }
