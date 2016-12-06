@@ -3,6 +3,7 @@ const styles = {
       position: 'fixed'
    },
    songListStyle: {
+      margin: 0,
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-around'
@@ -11,7 +12,20 @@ const styles = {
       position: 'fixed',
       bottom: 0
    },
-
+   listItemStyle: {
+      backgroundColor: "black", opacity: "0.3" 
+   },
+   rootSliderStyle: {
+      marginLeft: "8px",
+      marginRight: "8px"
+   },
+   sliderStyle: {
+      marginTop: "16px",
+      marginBottom: "16px"
+   },
+   buttonStyle: {
+      marginBottom: "16px"
+   }
 };
 
 export default styles;
