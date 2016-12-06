@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
+import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List, Menu, MenuItem } from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -72,6 +72,20 @@ class App extends Component {
             url: song.preview_url,
             displayText: song.name + ' - ' + song.artists[0].name
          }])
+      });
+   }
+
+   changeSong = (value) => {
+      var ref = this.refs.playerRef;
+      console.log(value);
+      ref.audio.pause();
+      ref.currentTrackIndex = value;
+      ref.setState({ 
+         activeTrackIndex: -1,
+         displayedTime: 0
+      }, () => {
+         ref.updateSource();
+         ref.togglePause(false);
       });
    }
 
@@ -165,11 +179,11 @@ class App extends Component {
                      onTouchTap={this.generateFireMixtape}/>
                </div>
                {this.state.songList.length > 0 &&
-                  <SongList songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
+                  <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
                }
             </div>
             {this.state.nowPlaying.length > 0 &&
-               <AudioPlayer autoplay style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
+               <AudioPlayer autoplay ref="playerRef" style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
             }
             <Dialogs loginOpen={this.state.loginOpen} loginClose={this.handleLoginClose}/>
          </div>
@@ -227,10 +241,17 @@ class Nav extends Component {
 class SongList extends Component {
    constructor(props) {
       super(props);
-      this.state = { open: false };
+      this.state = { 
+         open: false,
+         currentSong: 0
+      };
    }
 
    handleToggle = () => this.setState({ open: !this.state.open });
+   handleChange = (event, value) => {
+      this.setState({ currentSong: value })
+      this.props.changeSong(value);
+   }
    render() {
       var songCards = this.props.songList.map((song, index) => {
          return <GridTile key={index} title={song.name} subtitle={song.artists[0].name}
@@ -240,23 +261,23 @@ class SongList extends Component {
 
       });
       var nowPlayingPlaylist = this.props.nowPlaying.map((song, index) => {
-         return <ListItem key={index} disabled nestedListStyle={styles.listItemStyle} primaryText={song.displayText} />
+         return <MenuItem key={index} primaryText={song.displayText} value={index} />
       });
 
       return (
          <div>
             <div className="centered"><RaisedButton label="Toggle Drawer" onTouchTap={this.handleToggle} style={styles.buttonStyle}/></div>
-            <Drawer docked={false} width={200} open={this.state.open} onRequestChange={(open) => this.setState({open})} >
-               <List>
-                  <Subheader>Now Playing</Subheader>
+            <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({open})} >
+               <Subheader>Now Playing</Subheader>
+               <Menu onChange={this.handleChange}>
                   {nowPlayingPlaylist}
-               </List>
+               </Menu>
             </Drawer>
 
             <GridList
                cellHeight={180}
                style={styles.songListStyle}
-               >
+            >
                <Subheader>Results</Subheader>
                {songCards}
             </GridList>
@@ -266,10 +287,6 @@ class SongList extends Component {
 }
 
 class Dialogs extends Component {
-   constructor(props) {
-      super(props);
-   }
-
    render() {
       const loginActions = [
          <FlatButton
