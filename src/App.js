@@ -10,7 +10,8 @@ import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
 import _ from 'lodash';
 import ReactDOM from 'react-dom';
-import {Layer, Rect, Stage, Group} from ‘react-konva’;
+import {Layer, Rect, Stage, Group} from "react-konva";
+import Konva from "konva";
 //import VisualPage from './Visualizer';
 
 injectTapEventPlugin();
@@ -89,11 +90,7 @@ class App extends Component {
                {_.isEmpty(params) &&
                   <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()} />
                }
-								<Stage width={700} height={700}>
-        					<Layer>
-            				<MyRect/>
-       						 </Layer>
-								</Stage>
+							 <MyRect/>
                <Slider
                   defaultValue={0.5}
                   value={this.state.danceability}
@@ -132,26 +129,32 @@ class App extends Component {
 }
 
 class MyRect extends React.Component {
-    constructor(...args) {
-      super(...args);
+    constructor() {
+      super();
       this.state = {
         color: 'green'
       };
       this.handleClick = this.handleClick.bind(this);
     }
-    handleClick() {
+    handleClick(event) {
       this.setState({
         color: Konva.Util.getRandomColor()
       });
+			
+			
     }
     render() {
         return (
+					<Stage width={700} height={100} >
+						<Layer>
             <Rect
-                x={10} y={10} width={50} height={50}
+                x={10} y={10} width={650} height={50}
                 fill={this.state.color}
                 shadowBlur={10}
-                onClick={this.handleClick}
-            />
+								onClick={this.handleClick}
+            />	
+							</Layer>
+						</Stage>
         );
     }
 }
