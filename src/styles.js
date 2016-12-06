@@ -14,6 +14,10 @@ const styles = {
    listItemStyle: {
       backgroundColor: "black", opacity: "0.3" 
    },
+   rootSliderStyle: {
+      marginLeft: "8px",
+      marginRight: "8px"
+   },
    sliderStyle: {
       marginTop: "16px",
       marginBottom: "16px"

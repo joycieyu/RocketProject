@@ -14,7 +14,6 @@ import ReactDOM from 'react-dom';
 import {Layer, Rect, Stage, Group} from "react-konva";
 import Konva from "konva";
 
-
 injectTapEventPlugin();
 var s = new SpotifyApi();
 
@@ -50,16 +49,16 @@ class App extends Component {
          songList: data.tracks
       });
    }
-    onNewRequest = (query) => {
-    s.getMyTopTracks()
-        .then((data) => {
-          var trackSeed = data.items[0].id;
-          s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.props.userFeatureValue.loudness, target_tempo: this.props.userFeatureValue.tempo, 
-                                  target_valence: this.props.userFeatureValue.valence, target_energy: this.props.userFeatureValue.energy, target_danceability: this.props.userFeatureValue.danceability })
-              .then((recommendedSongObject) => {
-                this.props.refreshSongList(recommendedSongObject);
-              })
-        })
+   generateFireMixtape = () => {
+      s.getMyTopTracks()
+      .then((data) => {
+         var trackSeed = data.items[0].id;
+         s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.state.loudness, target_tempo: this.state.tempo, 
+                                 target_valence: this.state.valence, target_energy: this.state.energy, target_danceability: this.state.danceability })
+         .then((recommendedSongObject) => {
+            this.refreshSongList(recommendedSongObject);
+         })
+      })
    }
 
 
@@ -114,6 +113,7 @@ class App extends Component {
                   defaultValue={0.5}
                   value={this.state.danceability}
                   onChange={this.handleDanceability}
+                  style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
                <Subheader>Energy</Subheader>
@@ -121,6 +121,7 @@ class App extends Component {
                   defaultValue={0.5}
                   value={this.state.energy}
                   onChange={this.handleEnergy}
+                  style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
                <Subheader>Loudness</Subheader>
@@ -130,6 +131,7 @@ class App extends Component {
                   max={0}
                   value={this.state.loudness}
                   onChange={this.handleLoudness}
+                  style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
                <Subheader>Tempo</Subheader>
@@ -139,6 +141,7 @@ class App extends Component {
                   defaultValue={120}
                   value={this.state.tempo}
                   onChange={this.handleTempo}
+                  style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
                <Subheader>Valence</Subheader>
@@ -146,12 +149,14 @@ class App extends Component {
                   defaultValue={0.5}
                   value={this.state.valence}
                   onChange={this.handleValence}
+                  style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
 
-                  <div className="centered">
-                     <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={styles.buttonStyle} />
-                  </div>
+               <div className="centered">
+                  <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={styles.buttonStyle} 
+                     onTouchTap={this.generateFireMixtape}/>
+               </div>
                {this.state.songList.length > 0 &&
                   <SongList songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
                }
@@ -172,7 +177,6 @@ class MyRect extends React.Component {
       };
     }
     handleClick = (event) => {
-       console.log(Konva.util.getRandomColor());
       this.setState({
         color: Konva.Util.getRandomColor()
       });
@@ -237,7 +241,7 @@ class SongList extends Component {
             <RaisedButton label="Toggle Drawer" onTouchTap={this.handleToggle} />
             <Drawer width={300} openSecondary={true} open={this.state.open} >
                <List>
-                  <Subheader>NowPlaying</Subheader>
+                  <Subheader>Now Playing</Subheader>
                   {nowPlayingPlaylist}
                </List>
             </Drawer>
