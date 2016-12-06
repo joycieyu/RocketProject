@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader } from 'material-ui';
+import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -9,9 +9,13 @@ import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
 import _ from 'lodash';
+<<<<<<< HEAD
 import ReactDOM from 'react-dom';
 import {Layer, Rect, Stage, Group} from "react-konva";
 import Konva from "konva";
+=======
+//import Example from 
+>>>>>>> 2072cfdfbb6a08dc34c75a2da26ea436be3e0de3
 //import VisualPage from './Visualizer';
 
 injectTapEventPlugin();
@@ -22,13 +26,12 @@ class App extends Component {
       super(props);
       this.state = ({
          songList: [],
-         audioFeatureResults: {},
          nowPlaying: [],
-         danceability: 0,
-         energy: 0,
-         loudness: 0,
-         tempo: 0,
-         valence: 0
+         danceability: 0.5,
+         energy: 0.5,
+         loudness: -30,
+         tempo: 120,
+         valence: 0.5
       });
    }
 
@@ -40,17 +43,20 @@ class App extends Component {
    }
 
    // show list of songs returned by the search query
-   refreshSongList = (data, audioFeatureData) => {
+   refreshSongList = (data) => {
+      console.log("what's data", data)
       this.setState({
-         songList: data.tracks.items,
-         audioFeatureResults: audioFeatureData.audio_features
+         songList: data.tracks
       });
+<<<<<<< HEAD
       console.log("hello", this.state);
+=======
+      //console.log(this.state);
+>>>>>>> 2072cfdfbb6a08dc34c75a2da26ea436be3e0de3
    }
 
    // add a new song to the play list
    updateNowPlaying = (song) => {
-      console.log(this.state.nowPlaying);
       this.setState({
          nowPlaying: this.state.nowPlaying.concat([{
             url: song.preview_url,
@@ -82,7 +88,7 @@ class App extends Component {
    render() {
       return (
          <div>
-            <Nav refreshSongList={this.refreshSongList} />
+            <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
             <div className="container">
                {this.state.songList.length === 0 &&
                   <SearchHome />
@@ -90,34 +96,46 @@ class App extends Component {
                {_.isEmpty(params) &&
                   <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()} />
                }
+<<<<<<< HEAD
 							 <MyRect/>
+=======
+               <Subheader>Danceability</Subheader>
+>>>>>>> 2072cfdfbb6a08dc34c75a2da26ea436be3e0de3
                <Slider
                   defaultValue={0.5}
                   value={this.state.danceability}
                   onChange={this.handleDanceability}
                   />
+               <Subheader>Energy</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.energy}
                   onChange={this.handleEnergy}
                   />
+               <Subheader>Loudness</Subheader>
                <Slider
-                  defaultValue={0.5}
+                  defaultValue={-30}
+                  min={-60}
+                  max={0}
                   value={this.state.loudness}
                   onChange={this.handleLoudness}
                   />
+               <Subheader>Tempo</Subheader>
                <Slider
-                  defaultValue={0.5}
+                  min={60}
+                  max={180}
+                  defaultValue={120}
                   value={this.state.tempo}
                   onChange={this.handleTempo}
                   />
+               <Subheader>Valence</Subheader>
                <Slider
                   defaultValue={0.5}
                   value={this.state.valence}
                   onChange={this.handleValence}
                   />
                {this.state.songList.length > 0 &&
-                  <SongList songList={this.state.songList} updateParent={this.updateNowPlaying} />
+                  <SongList songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
                }
             </div>
             {this.state.nowPlaying.length > 0 &&
@@ -175,15 +193,15 @@ class Nav extends Component {
 
    // search for songs
    onNewRequest = (query) => {
-      s.searchTracks(query)
+      console.log("all state", this.props);
+      s.getMyTopTracks()
          .then((data) => {
-            console.log(data);
-            var idMap = data.tracks.items.map((song) => {
-               return song.id;
-            });
-            s.getAudioFeaturesForTracks(idMap)
-               .then((audioFeatureData) => {
-                  this.props.refreshSongList(data, audioFeatureData);
+            var trackSeed = data.items[0].id;
+            s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.props.userFeatureValue.loudness, target_tempo: this.props.userFeatureValue.tempo, 
+                                    target_valence: this.props.userFeatureValue.valence, target_energy: this.props.userFeatureValue.energy, target_danceability: this.props.userFeatureValue.danceability })
+               .then((recommendedSongObject) => {
+                  console.log("here it is", recommendedSongObject);
+                  this.props.refreshSongList(recommendedSongObject);
                })
          })
    }
@@ -211,16 +229,35 @@ class Nav extends Component {
 }
 
 class SongList extends Component {
+   constructor(props) {
+      super(props);
+      this.state = { open: false };
+   }
+
+   handleToggle = () => this.setState({ open: !this.state.open });
    render() {
       var songCards = this.props.songList.map((song, index) => {
          return <GridTile key={index} title={song.name} subtitle={song.artists[0].name}
             actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50} /></IconButton>}>
-            <img src={song.album.images[1].url} alt="album art" />
+            <img src={song.album.images[0].url} alt="album art" />
          </GridTile>
+
+      });
+      var nowPlayingPlaylist = this.props.nowPlaying.map((song, index) => {
+         console.log(song);
+         return <ListItem key={index} disabled nestedListStyle={{ backgroundColor: "black", opacity: "0.3" }} primaryText={song.displayText} />
       });
 
       return (
          <div>
+            <RaisedButton label="Toggle Drawer" onTouchTap={this.handleToggle} />
+            <Drawer width={300} openSecondary={true} open={this.state.open} >
+               <List>
+                  <Subheader>NowPlaying</Subheader>
+                  {nowPlayingPlaylist}
+               </List>
+            </Drawer>
+
             <GridList
                cellHeight={180}
                style={styles.songListStyle}
@@ -228,6 +265,7 @@ class SongList extends Component {
                <Subheader>Results</Subheader>
                {songCards}
             </GridList>
+
          </div>
       );
    }
