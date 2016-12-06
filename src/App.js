@@ -20,13 +20,12 @@ class App extends Component {
       super(props);
       this.state = ({
          songList: [],
-         audioFeatureResults: {},
          nowPlaying: [],
-         danceability: 0,
-         energy: 0,
-         loudness: 0,
-         tempo: 0,
-         valence: 0
+         danceability: 0.5,
+         energy: 0.5,
+         loudness: -30,
+         tempo: 120,
+         valence: 0.5
       });
    }
 
@@ -38,18 +37,16 @@ class App extends Component {
    }
 
    // show list of songs returned by the search query
-   refreshSongList = (data, audioFeatureData) => {
-      console.log("next after", data)
+   refreshSongList = (data) => {
+      console.log("what's data", data)
       this.setState({
-         songList: data.items,
-         audioFeatureResults: audioFeatureData.audio_features
+         songList: data.tracks
       });
-      console.log(this.state);
+      //console.log(this.state);
    }
 
    // add a new song to the play list
    updateNowPlaying = (song) => {
-      console.log(this.state.nowPlaying);
       this.setState({
          nowPlaying: this.state.nowPlaying.concat([{
             url: song.preview_url,
@@ -81,7 +78,7 @@ class App extends Component {
    render() {
       return (
          <div>
-            <Nav refreshSongList={this.refreshSongList} />
+            <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
             <div className="container">
                {this.state.songList.length === 0 &&
                   <SearchHome />
@@ -103,13 +100,17 @@ class App extends Component {
                   />
                <Subheader>Loudness</Subheader>
                <Slider
-                  defaultValue={0.5}
+                  defaultValue={-30}
+                  min={-60}
+                  max={0}
                   value={this.state.loudness}
                   onChange={this.handleLoudness}
                   />
                <Subheader>Tempo</Subheader>
                <Slider
-                  defaultValue={0.5}
+                  min={60}
+                  max={180}
+                  defaultValue={120}
                   value={this.state.tempo}
                   onChange={this.handleTempo}
                   />
@@ -120,7 +121,7 @@ class App extends Component {
                   onChange={this.handleValence}
                   />
                {this.state.songList.length > 0 &&
-                  <SongList songList={this.state.songList} updateParent={this.updateNowPlaying} />
+                  <SongList songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
                }
             </div>
             {this.state.nowPlaying.length > 0 &&
@@ -145,13 +146,15 @@ class Nav extends Component {
 
    // search for songs
    onNewRequest = (query) => {
+      console.log("all state", this.props);
       s.getMyTopTracks()
          .then((data) => {
             var trackSeed = data.items[0].id;
-            s.getRecommendations({ limit: 50, seed_tracks: trackSeed, min_energy: 0.4, min_popularity: 50 })
+            s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.props.userFeatureValue.loudness, target_tempo: this.props.userFeatureValue.tempo, 
+                                    target_valence: this.props.userFeatureValue.valence, target_energy: this.props.userFeatureValue.energy, target_danceability: this.props.userFeatureValue.danceability })
                .then((recommendedSongObject) => {
                   console.log("here it is", recommendedSongObject);
-                  //this.props.refreshSongList(data, audioFeatureData);
+                  this.props.refreshSongList(recommendedSongObject);
                })
          })
    }
@@ -189,11 +192,12 @@ class SongList extends Component {
       var songCards = this.props.songList.map((song, index) => {
          return <GridTile key={index} title={song.name} subtitle={song.artists[0].name}
             actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50} /></IconButton>}>
-            <img src={song.album.images[1].url} alt="album art" />
+            <img src={song.album.images[0].url} alt="album art" />
          </GridTile>
 
       });
-      var nowPlayingPlaylist = this.props.playlist.map((song, index) => {
+      var nowPlayingPlaylist = this.props.nowPlaying.map((song, index) => {
+         console.log(song);
          return <ListItem key={index} disabled nestedListStyle={{ backgroundColor: "black", opacity: "0.3" }} primaryText={song.displayText} />
       });
 
