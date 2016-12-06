@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Subheader, Drawer, ListItem, List } from 'material-ui';
+import { AppBar, AutoComplete, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List } from 'material-ui';
 import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -21,7 +21,12 @@ class App extends Component {
       this.state = ({
          songList: [],
          audioFeatureResults: {},
-         nowPlaying: []
+         nowPlaying: [],
+         danceability: 0,
+         energy: 0,
+         loudness: 0,
+         tempo: 0,
+         valence: 0
       });
    }
 
@@ -53,6 +58,26 @@ class App extends Component {
       });
    }
 
+   handleDanceability = (event, value) => {
+      this.setState({ danceability: value });
+   };
+
+   handleEnergy = (event, value) => {
+      this.setState({ energy: value });
+   };
+
+   handleLoudness = (event, value) => {
+      this.setState({ loudness: value });
+   };
+
+   handleTempo = (event, value) => {
+      this.setState({ tempo: value });
+   };
+
+   handleValence = (event, value) => {
+      this.setState({ valence: value });
+   };
+
    render() {
       return (
          <div>
@@ -64,8 +89,33 @@ class App extends Component {
                {_.isEmpty(params) &&
                   <RaisedButton label="Login with Spotify to continue" primary={true} onTouchTap={() => goToSpotifyLogin()} />
                }
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.danceability}
+                  onChange={this.handleDanceability}
+                  />
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.energy}
+                  onChange={this.handleEnergy}
+                  />
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.loudness}
+                  onChange={this.handleLoudness}
+                  />
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.tempo}
+                  onChange={this.handleTempo}
+                  />
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.valence}
+                  onChange={this.handleValence}
+                  />
                {this.state.songList.length > 0 &&
-                  <SongList songList={this.state.songList} updateParent={this.updateNowPlaying} playlist={this.state.nowPlaying} />
+                  <SongList songList={this.state.songList} updateParent={this.updateNowPlaying} />
                }
             </div>
             {this.state.nowPlaying.length > 0 &&
@@ -132,7 +182,6 @@ class SongList extends Component {
    handleToggle = () => this.setState({ open: !this.state.open });
    render() {
       var songCards = this.props.songList.map((song, index) => {
-         console.log("pre error", song);
          return <GridTile key={index} title={song.name} subtitle={song.artists[0].name}
             actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50} /></IconButton>}>
             <img src={song.album.images[1].url} alt="album art" />
