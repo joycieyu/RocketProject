@@ -33,8 +33,9 @@ class App extends Component {
 
    // show list of songs returned by the search query
    refreshSongList = (data, audioFeatureData) => {
+         console.log("next after", data.items)
       this.setState({
-         songList: data.tracks.items,
+         songList: data.items,
          audioFeatureResults: audioFeatureData.audio_features
       });
       console.log(this.state);
@@ -46,7 +47,7 @@ class App extends Component {
       this.setState({ 
          nowPlaying: this.state.nowPlaying.concat([{
             url: song.preview_url,
-            displayText: song.name + ' - ' + song.artists[0].name
+            displayText: song.track.name + ' - ' + song.track.artists[0].name
          }]) 
       });
    }
@@ -56,7 +57,7 @@ class App extends Component {
          <div>
             <Nav refreshSongList={this.refreshSongList}/>
             <div className="container">
-            	{this.state.songList.length == 0 &&
+            	{this.state.songList.length === 0 &&
                 <SearchHome />
              }
              {_.isEmpty(params) && 
@@ -64,9 +65,6 @@ class App extends Component {
              }
              {this.state.songList.length > 0 &&
                   <SongList songList={this.state.songList} updateParent={this.updateNowPlaying} playlist={this.state.nowPlaying}/>
-             }            
-             {this.state.nowPlaying.length > 0 &&
-                <SongList songList={this.state.songList} updateParent={this.updateNowPlaying}/>
              }       
              </div>
              {this.state.nowPlaying.length > 0 && 
@@ -91,16 +89,34 @@ class Nav extends Component {
 
    // search for songs
    onNewRequest = (query) => {
-      s.searchTracks(query)
+      s.getFeaturedPlaylists()
       .then((data) => {
-         console.log(data);
-         var idMap = data.tracks.items.map((song) => {
-            return song.id;
-         });
-         s.getAudioFeaturesForTracks(idMap)
-         .then((audioFeatureData) => {
-            this.props.refreshSongList(data, audioFeatureData);
-         })
+         
+         var idUser = data.playlists.items[0].owner.id;
+         var idPlaylist = data.playlists.items[0].id;
+         s.getPlaylistTracks(idUser,idPlaylist)
+         .then((testing) =>{
+               //console.log("object",testing);
+               //console.log(testing.items);
+         //console.log("playlist id",data.playlists.items[0].id);
+         //console.log("playlist id",idPlaylist);
+         //console.log("userid",idUser);
+             var idMap = testing.items.map((song) => {
+                  return song.track.id;
+                  //return testing;
+             })
+             s.getAudioFeaturesForTracks(idMap)
+             .then((audioFeatureData) => {
+                  //console.log("here it is",audioFeatureData);
+                  this.props.refreshSongList(testing, audioFeatureData);
+             })
+          });
+         //})
+      //    s.getAudioFeaturesForTracks(idMap)
+      //    .then((audioFeatureData) => {
+      //          console.log("here it is",audioFeatureData);
+      //       this.props.refreshSongList(data, audioFeatureData);
+      //    })
       })
    }
 
@@ -135,9 +151,10 @@ class SongList extends Component {
   handleToggle = () => this.setState({open: !this.state.open});
    render() {
       var songCards = this.props.songList.map((song, index) => {
-         return <GridTile key={index} title={song.name} subtitle={song.artists[0].name} 
+            console.log("pre error",song);
+         return <GridTile key={index} title={song.track.name} subtitle={song.track.artists[0].name} 
             actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50}/></IconButton>}>
-                  <img src={song.album.images[1].url} alt="album art" />
+                  <img src={song.track.album.images[1].url} alt="album art" />
          </GridTile>
       
       });
