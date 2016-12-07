@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List, Menu, MenuItem, Popover } from 'material-ui';
+import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, Menu, MenuItem, Popover } from 'material-ui';
 import AvAddCircleOutline from 'material-ui/svg-icons/av/playlist-add.js';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -28,8 +28,8 @@ class App extends Component {
       dataSource: [],
       inputValue: "",
       loginOpen: false,
+      nextImage:"background0",
       playlistOpen: false,
-      nextImage:["blah","blah2", "blah3"],
       openPopOver: false
     });
 }
@@ -159,13 +159,13 @@ class App extends Component {
   // change background image
   handleClick(event, num) {
     this.setState({
-     nextImage: this.state.nextImage[num]
+     nextImage: num
     });
   };
   render() {
-    return (
-      <div className="test" id={this.state.nextImage[0]}>
-         {/* Fire icon link at top */}
+    return (       
+      <div className="test" id={this.state.nextImage}>
+      {/* Fire icon link at top */}
         {this.state.songList.length > 0 &&
           <Nav />
         }
@@ -297,9 +297,11 @@ class App extends Component {
           {/* Options for changing background and adding a playlist to Spotify */}
           {this.state.songList.length > 0 &&
           <div className="centered">
-              <RaisedButton
+              <RaisedButton className="space"
                 onTouchTap={this.handleTouchTap}
                 label="Not feelin' the animation? click here"
+                backgroundColor="orange"
+                style={styles.buttonStyle}
               />
               <Popover
                 open={this.state.openPopOver}
@@ -309,10 +311,10 @@ class App extends Component {
                 onRequestClose={this.handleRequestClose}
               >
                 <Menu>
-                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, 0)}  />
-                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, 1)}/>
-                  <MenuItem primaryText="Light Blubs" />
-                  <MenuItem primaryText="Leaves" />
+                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, "background0")}  />
+                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, "background1")}/>
+                  <MenuItem primaryText="Light Blubs" onTouchTap={(event) => this.handleClick(event, "background2")} />
+                  <MenuItem primaryText="Leaves" onTouchTap={(event) => this.handleClick(event, "background3")} />
                 </Menu>
               </Popover>
               <RaisedButton
@@ -340,7 +342,6 @@ class App extends Component {
           </footer>
         </div>
       </div>
-
     );
   }
 }
