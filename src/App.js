@@ -374,7 +374,7 @@ class SongList extends Component {
       <div>
         <div className="centered"><RaisedButton label="Show my Lit Playlist Now" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
         <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
-          <Subheader style={{fontSize:"25px"}}>Now Playing</Subheader>
+          <Subheader>Now Playing</Subheader>
           <Menu onChange={this.handleChange}>
             {nowPlayingPlaylist}
           </Menu>
