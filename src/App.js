@@ -203,7 +203,6 @@ class App extends Component {
       );
    }
 }
-
 class MyRect extends React.Component {
     constructor(props) {
       super(props);
@@ -211,22 +210,33 @@ class MyRect extends React.Component {
         color: 'green'
       };
     }
-    handleClick = (event) => {
+    handleHover = (event) => {
       this.setState({
         color: Konva.Util.getRandomColor()
+      });
+      this.refs.rect.to({
+        scaleX: Math.random() + 1.5,
+        scaleY: Math.random() + 1.5,
+        easing: Konva.Easings.EaseInOut,
+        duration: 0.2
       });
 			
     }
     render() {
         return (
           <div className="container centered">
-            <Stage width={window.innerWidth / 2} height={100} >
+            <Stage width={window.innerWidth / 2} height={350} >
                <Layer>
                   <Rect
-                     x={10} y={10} width={window.innerWidth / 3} height={50}
+                     
+                     width={window.innerWidth / 10} height={50}
                      fill={this.state.color}
                      shadowBlur={10}
-                     onClick={(e) => this.handleClick(e)}
+                     onMouseEnter={(e) => this.handleHover(e)}
+                     onTouchStart={(e) => this.handleHover(e)}
+                     onClick={(e) => this.handleHover(e)}
+                     draggable="true"
+                     ref="rect"
                   />
                </Layer>
             </Stage>
@@ -234,7 +244,6 @@ class MyRect extends React.Component {
         );
     }
 }
-
 
 class Nav extends Component {
    render() {
