@@ -134,8 +134,7 @@ class App extends Component {
           {this.state.songList.length > 0 &&
             <MyRect />
           }
-          {this.state.songList.length === 0 &&
-            <div>
+
           <div className="container sliders">
             <Subheader>How much do you want to dance?</Subheader>
             <Slider
@@ -187,8 +186,7 @@ class App extends Component {
             <RaisedButton label="Make Your Lit Mixtape" primary={true} style={styles.buttonStyle}
               onTouchTap={this.generateFireMixtape} />
           </div>
-          </div>
-          }
+
           {this.state.songList.length > 0 &&
             <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
           }
