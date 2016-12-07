@@ -32,7 +32,8 @@ class App extends Component {
       nextImage:["blah","blah2", "blah3"],
       openPopOver: false
     });
-  }
+}
+
 
   componentDidMount() {
     // if logged in, set access token
@@ -151,14 +152,21 @@ class App extends Component {
       openPopOver: false,
     });
   };
+
+  handleClick(event, num) {
+    this.setState({
+     nextImage: this.state.nextImage[num]
+    });
+    console.log(num);
+  };
   render() {
     return (
-      <div className="test" id={this.state.nextImage[2]}>
+      <div className="test" id={this.state.nextImage[0]}>
         {this.state.songList.length > 0 &&
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
         {this.state.songList.length > 0 &&
-          <div className="centered top"><a href="#songs">add songs to your <em>lit</em> playlist below</a></div>
+          <div className="centered top"><a id="addSong" href="#songs">add songs to your <em>lit</em> playlist below</a></div>
         }
         <div className="container">
           {this.state.songList.length === 0 &&
@@ -283,31 +291,31 @@ class App extends Component {
           }
           {this.state.songList.length > 0 &&
           <div className="centered">
-            <RaisedButton
-               onTouchTap={this.handleTouchTap}
-               label="Click me"
-            />
-            <Popover
-               open={this.state.openPopOver}
-               anchorEl={this.state.anchorEl}
-               anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-               targetOrigin={{horizontal: 'left', vertical: 'top'}}
-               onRequestClose={this.handleRequestClose}
-            >
-               <Menu>
-               <MenuItem primaryText="Refresh" />
-               <MenuItem primaryText="Help &amp; feedback" />
-               <MenuItem primaryText="Settings" />
-               <MenuItem primaryText="Sign out" />
-               </Menu>
-            </Popover>
-            <RaisedButton
+              <RaisedButton
+                onTouchTap={this.handleTouchTap}
+                label="Not feelin' the animation? click here"
+              />
+              <Popover
+                open={this.state.openPopOver}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                onRequestClose={this.handleRequestClose}
+              >
+                <Menu>
+                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, 0)}  />
+                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, 1)}/>
+                  <MenuItem primaryText="Light Blubs" />
+                  <MenuItem primaryText="Leaves" />
+                </Menu>
+              </Popover>
+              <RaisedButton
                onTouchTap={this.createPlaylist}
                label="Add this playlist to Spotify"
                backgroundColor="orange"
                style={styles.buttonStyle}
-            />
-          </div>
+               />
+              </div>
           }
           {this.state.songList.length > 0 &&
             <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
@@ -336,7 +344,7 @@ class Nav extends Component {
       <div>
         <AppBar
           title="It's Lit Fam"
-          style={styles.appBarStyle}
+          style={styles.appBarStyle} 
           iconElementLeft={
             <a href="/#" aria-hidden="true"><img src="./fire.png" alt="fire icon" className="fireSmall" />
             </a>
@@ -370,14 +378,14 @@ class SongList extends Component {
 
     });
     var nowPlayingPlaylist = this.props.nowPlaying.map((song, index) => {
-      return <MenuItem style={{color:"black", fontSize:"20px" }} key={index} primaryText={song.displayText} value={index} />
+      return <MenuItem style={styles.titleStyling} key={index} primaryText={song.displayText} value={index} />
     });
 
     return (
       <div>
         <div className="centered"><RaisedButton label="Show my Lit Playlist Now" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
         <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
-          <Subheader style={{fontSize:"25px"}}>Now Playing</Subheader>
+          <Subheader>Now Playing</Subheader>
           <Menu onChange={this.handleChange}>
             {nowPlayingPlaylist}
           </Menu>

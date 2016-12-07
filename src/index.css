@@ -1,6 +1,5 @@
 * {
    font-family: 'Roboto', sans-serif;
-   color: white;
 }
 
 /* workaround for normalize.css breaking material ui buttons */
@@ -61,7 +60,7 @@ footer p {
   
   height: 100%;
   width: 100%;
-  background-size: 150%;
+  background-size: 200%;
   background-attachment: fixed;
   animation: panning 120s infinite linear;
 }
@@ -91,6 +90,10 @@ position: absolute;
   border-radius: 2px;
   -webkit-font-smoothing: antialiased;
 }
+#addSong {
+  color: white;
+  text-decoration: none;
+}
 
 .pushDown {
     padding-top: 800px;
@@ -99,7 +102,7 @@ position: absolute;
     text-decoration: none;
 }
 
-em {
+a em {
     color: #ff6600;
     font-weight: bold;
 }
@@ -110,6 +113,7 @@ em {
 
 #blah {
   background: transparent url(ffbackground.jpg);
+
 }
 
 #blah2 {
