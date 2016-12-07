@@ -3,8 +3,7 @@ const styles = {
       position: 'fixed',
       backgroundColor: "transparent",
       elevation: 'none',
-      boxShadow: "none",
-      margin: "10px"
+      boxShadow: "none"
    },
    titleStyling:{
        color:'black'
