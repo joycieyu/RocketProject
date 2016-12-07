@@ -119,6 +119,9 @@ class App extends Component {
         {this.state.songList.length > 0 &&
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
+        {this.state.songList.length > 0 &&
+          <div className="centered top">add songs to your <em>lit</em> playlist below</div>
+        }
         <div className="container">
           {this.state.songList.length === 0 &&
             <SearchHome />
@@ -130,116 +133,116 @@ class App extends Component {
             </div>
           }
           {this.state.songList.length === 0 &&
-                  <div>
-          <div className="container sliders">
-            <Subheader>How much do you want to dance?</Subheader>
-            <Slider
-              defaultValue={0.5}
-              value={this.state.danceability}
-              onChange={this.handleDanceability}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-            <Subheader>How pumped are you?</Subheader>
-            <Slider
-              defaultValue={0.5}
-              value={this.state.energy}
-              onChange={this.handleEnergy}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-            <Subheader>How loud do you want your music?</Subheader>
-            <Slider
-              defaultValue={-30}
-              min={-60}
-              max={0}
-              value={this.state.loudness}
-              onChange={this.handleLoudness}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-            <Subheader>How fast do you want the beat?</Subheader>
-            <Slider
-              min={60}
-              max={180}
-              defaultValue={120}
-              value={this.state.tempo}
-              onChange={this.handleTempo}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-            <Subheader>How happy do you want your tunes?</Subheader>
-            <Slider
-              defaultValue={0.5}
-              value={this.state.valence}
-              onChange={this.handleValence}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-            </div>
+            <div>
+              <div className="container sliders">
+                <Subheader>How much do you want to dance?</Subheader>
+                <Slider
+                  defaultValue={0.5}
+                  value={this.state.danceability}
+                  onChange={this.handleDanceability}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                <Subheader>How pumped are you?</Subheader>
+                <Slider
+                  defaultValue={0.5}
+                  value={this.state.energy}
+                  onChange={this.handleEnergy}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                <Subheader>How loud do you want your music?</Subheader>
+                <Slider
+                  defaultValue={-30}
+                  min={-60}
+                  max={0}
+                  value={this.state.loudness}
+                  onChange={this.handleLoudness}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                <Subheader>How fast do you want the beat?</Subheader>
+                <Slider
+                  min={60}
+                  max={180}
+                  defaultValue={120}
+                  value={this.state.tempo}
+                  onChange={this.handleTempo}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                <Subheader>How happy do you want your tunes?</Subheader>
+                <Slider
+                  defaultValue={0.5}
+                  value={this.state.valence}
+                  onChange={this.handleValence}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+              </div>
 
-          <div className="centered">
-            <RaisedButton label="Make Your Lit Mixtape" primary={true} style={styles.buttonStyle}
-              onTouchTap={this.generateFireMixtape} />
-          </div>
-          </div>
+              <div className="centered">
+                <RaisedButton label="Make Your Lit Mixtape" primary={true} style={styles.buttonStyle}
+                  onTouchTap={this.generateFireMixtape} />
+              </div>
+            </div>
           }
           {this.state.songList.length > 0 &&
-                  <div>
-                  <div className="centered"><RaisedButton label="Re-Mix a new Lit Playlist" onTouchTap={this.handleToggle} style={styles.buttonStyle}/></div>
-                     <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({open})} >
-                     <Subheader>What would you like?</Subheader>
-               <Subheader>How much do you want to dance?</Subheader>
-            <Slider
-              defaultValue={0.5}
-              value={this.state.danceability}
-              onChange={this.handleDanceability}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-            <Subheader>How pumped are you?</Subheader>
-            <Slider
-              defaultValue={0.5}
-              value={this.state.energy}
-              onChange={this.handleEnergy}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-            <Subheader>How loud do you want your music?</Subheader>
-            <Slider
-              defaultValue={-30}
-              min={-60}
-              max={0}
-              value={this.state.loudness}
-              onChange={this.handleLoudness}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-            <Subheader>How fast do you want the beat?</Subheader>
-            <Slider
-              min={60}
-              max={180}
-              defaultValue={120}
-              value={this.state.tempo}
-              onChange={this.handleTempo}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-            <Subheader>How happy do you want your tunes?</Subheader>
-            <Slider
-              defaultValue={0.5}
-              value={this.state.valence}
-              onChange={this.handleValence}
-              style={styles.rootSliderStyle}
-              sliderStyle={styles.sliderStyle}
-              />
-                  <div className="centered">
-                  <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={styles.buttonStyle} 
-                     onTouchTap={this.generateFireMixtape}/>
-               </div>
-                     </Drawer>
-                  </div>
-               }
+            <div>
+              <div className="centered pushDown"><RaisedButton label="Re-Mix a new Lit Playlist" onTouchTap={this.handleToggle} style={styles.buttonStyle} /></div>
+              <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
+                <Subheader>What would you like?</Subheader>
+                <Subheader>How much do you want to dance?</Subheader>
+                <Slider
+                  defaultValue={0.5}
+                  value={this.state.danceability}
+                  onChange={this.handleDanceability}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                <Subheader>How pumped are you?</Subheader>
+                <Slider
+                  defaultValue={0.5}
+                  value={this.state.energy}
+                  onChange={this.handleEnergy}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                <Subheader>How loud do you want your music?</Subheader>
+                <Slider
+                  defaultValue={-30}
+                  min={-60}
+                  max={0}
+                  value={this.state.loudness}
+                  onChange={this.handleLoudness}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                <Subheader>How fast do you want the beat?</Subheader>
+                <Slider
+                  min={60}
+                  max={180}
+                  defaultValue={120}
+                  value={this.state.tempo}
+                  onChange={this.handleTempo}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                <Subheader>How happy do you want your tunes?</Subheader>
+                <Slider
+                  defaultValue={0.5}
+                  value={this.state.valence}
+                  onChange={this.handleValence}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                <div className="centered">
+                  <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={styles.buttonStyle}
+                    onTouchTap={this.generateFireMixtape} />
+                </div>
+              </Drawer>
+            </div>
+          }
           {this.state.songList.length > 0 &&
             <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
           }
@@ -256,7 +259,7 @@ class App extends Component {
         </div>
 
 
-        </div>
+      </div>
 
     );
   }

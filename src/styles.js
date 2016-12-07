@@ -1,6 +1,10 @@
 const styles = {
    appBarStyle: {
-      position: 'fixed'
+      position: 'fixed',
+      backgroundColor: "transparent",
+      elevation: 'none',
+      boxShadow: "none"
+          
    },
    songListStyle: {
       margin: 0,
@@ -26,6 +30,7 @@ const styles = {
    buttonStyle: {
       marginBottom: "16px"
    }
+
 };
 
 export default styles;

@@ -1,5 +1,6 @@
 * {
    font-family: 'Roboto', sans-serif;
+   color: white;
 }
 
 /* workaround for normalize.css breaking material ui buttons */
@@ -25,8 +26,8 @@ a[type=button] {
 }
 
 .fireSmall {
-    width: 2em;
-    height: 2em;
+    width: 3em;
+    height: 3em;
 }
 
 footer p {
@@ -60,7 +61,7 @@ footer p {
   
   height: 100%;
   width: 100%;
-  background: transparent url(IMG_5111.jpg);
+  background: transparent url(ffbackground.jpg);
   background-size: 150%;
   background-attachment: fixed;
   animation: panning 50s infinite linear;
@@ -69,4 +70,29 @@ footer p {
 
 html, body {
   height: 100%;
+}
+
+.top {
+position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  height: 90px;
+  width: 290px;
+  margin: auto;
+  font-family: Roboto;
+  font-size: 34px;
+  color: white;
+  font-weight: 100;
+  text-align: center;
+  padding: 10px 40px;
+  border: 3px solid #ccc;
+  border-radius: 2px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pushDown {
+    padding-top: 550px;
 }
