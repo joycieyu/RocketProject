@@ -60,7 +60,7 @@ footer p {
   
   height: 100%;
   width: 100%;
-  background-size: 150%;
+  background-size: 200%;
   background-attachment: fixed;
   animation: panning 120s infinite linear;
 }
@@ -111,15 +111,24 @@ a em {
   background-color: black;
 }
 
-#blah {
-  background: transparent url(ffbackground.jpg);
+#background0 {
+  background: transparent url(ffbackgroundblur.jpg);
+    /*-webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);*/
 
 }
 
-#blah2 {
-  background: transparent url(IMG_5111.jpg); 
+#background1 {
+  background: transparent url(IMG_5111blur.jpg); 
 }
 
-#blah3 {
-  background: transparent url(lightBulbs.jpg);
+#background2 {
+  background: transparent url(lightBulbsblur.jpg);
+}
+
+#background3 {
+  background: transparent url(leafblur.jpg);
 }

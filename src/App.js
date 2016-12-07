@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List, Menu, MenuItem, Popover } from 'material-ui';
+import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, Menu, MenuItem, Popover } from 'material-ui';
 import AvAddCircleOutline from 'material-ui/svg-icons/av/playlist-add.js';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -27,7 +27,7 @@ class App extends Component {
       dataSource: [],
       inputValue: "",
       loginOpen: false,
-      nextImage:["blah", "blah2", "blah3"],
+      nextImage:["background0", "background1", "background2", "background3"],
       openPopOver: false
     });
 }
@@ -156,7 +156,7 @@ class App extends Component {
   };
   render() {
     return (
-      <div className="test" id={this.state.nextImage[0]}>
+      <div className="test" id={this.state.nextImage[2]}>
         {this.state.songList.length > 0 &&
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
@@ -322,7 +322,6 @@ class App extends Component {
           </footer>
         </div>
       </div>
-
     );
   }
 }
