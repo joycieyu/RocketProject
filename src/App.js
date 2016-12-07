@@ -28,7 +28,7 @@ class App extends Component {
       inputValue: "",
       loginOpen: false,
       nextImage:["blah","blah2", "blah3"],
-      openPopover: false
+      openPopOver: false
     });
   }
 
@@ -130,6 +130,22 @@ class App extends Component {
     this.setState({ loginOpen: false });
   }
   handleToggle = () => this.setState({ open: !this.state.open });
+  
+  handleTouchTap = (event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+
+    this.setState({
+      openPopOver: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleRequestClose = () => {
+    this.setState({
+      openPopOver: false,
+    });
+  };
   render() {
     return (
       <div className="test" id={this.state.nextImage[2]}>
@@ -261,13 +277,13 @@ class App extends Component {
             </div>
           }
           {this.state.songList.length > 0 &&
-            <div>
-              <RaisedButton 
+          <div className="centered">
+              <RaisedButton
                 onTouchTap={this.handleTouchTap}
                 label="Click me"
               />
               <Popover
-                open={this.state.openPopover}
+                open={this.state.openPopOver}
                 anchorEl={this.state.anchorEl}
                 anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                 targetOrigin={{horizontal: 'left', vertical: 'top'}}
