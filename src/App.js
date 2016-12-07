@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List, Menu, MenuItem } from 'material-ui';
+import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List, Menu, MenuItem, Popover } from 'material-ui';
 import AvAddCircleOutline from 'material-ui/svg-icons/av/playlist-add.js';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -26,7 +26,9 @@ class App extends Component {
       valence: 0.5,
       dataSource: [],
       inputValue: "",
-      loginOpen: false
+      loginOpen: false,
+      nextImage:["blah","blah2", "blah3"],
+      openPopover: false
     });
   }
 
@@ -64,6 +66,21 @@ class App extends Component {
     }
   }
 
+  handleTouchTap = () => {
+    // This prevents ghost click.
+    event.preventDefault();
+
+    this.setState({
+      openPopover: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleRequestClose = () => {
+    this.setState({
+      openPopover: false,
+    });
+  };
 
   // add a new song to the play list
   updateNowPlaying = (song) => {
@@ -115,7 +132,7 @@ class App extends Component {
   handleToggle = () => this.setState({ open: !this.state.open });
   render() {
     return (
-      <div className="test">
+      <div className="test" id={this.state.nextImage[2]}>
         {this.state.songList.length > 0 &&
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
@@ -244,9 +261,32 @@ class App extends Component {
             </div>
           }
           {this.state.songList.length > 0 &&
+            <div>
+              <RaisedButton 
+                onTouchTap={this.handleTouchTap}
+                label="Click me"
+              />
+              <Popover
+                open={this.state.openPopover}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                onRequestClose={this.handleRequestClose}
+              >
+                <Menu>
+                  <MenuItem primaryText="Refresh" />
+                  <MenuItem primaryText="Help &amp; feedback" />
+                  <MenuItem primaryText="Settings" />
+                  <MenuItem primaryText="Sign out" />
+                </Menu>
+              </Popover>
+              </div>
+          }
+          {this.state.songList.length > 0 &&
             <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
           }
         </div>
+        
         {this.state.nowPlaying.length > 0 &&
           <AudioPlayer autoplay ref="playerRef" style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
         }
