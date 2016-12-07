@@ -104,3 +104,7 @@ em {
     color: #ff6600;
     font-weight: bold;
 }
+
+#playlistbutton {
+  background-color: black;
+}
