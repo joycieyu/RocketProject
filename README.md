@@ -6,7 +6,7 @@ Get song recommendations based on your Spotify listening history and various par
 2. Adjust the sliders to your liking
 3. Click the "Generate Fire Mixtape" button
 4. Preview songs by adding them to your playlist
-5. When you are satisfied with your playlist, you can add them to your Spotify account.
+5. When you are satisfied with your playlist, you can add them to your Spotify account by clicking "Add this playlist to Spotify"
 
 ### Audio Features
 You can customize your recommendation based on certain parameters. This is based on audio feature information from Spotify's Web API.
