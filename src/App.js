@@ -302,7 +302,7 @@ class App extends Component {
             <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
           }
         </div>
-        
+
         {this.state.nowPlaying.length > 0 &&
           <AudioPlayer autoplay ref="playerRef" style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
         }
@@ -313,8 +313,6 @@ class App extends Component {
             <p> made by team rocket </p>
           </footer>
         </div>
-
-
       </div>
 
     );
