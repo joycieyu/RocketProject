@@ -161,7 +161,7 @@ class App extends Component {
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
         {this.state.songList.length > 0 &&
-          <div className="centered top"><a href="#songs">add songs to your <em>lit</em> playlist below</a></div>
+          <div className="centered top"><a id="addSong" href="#songs">add songs to your <em>lit</em> playlist below</a></div>
         }
         <div className="container">
           {this.state.songList.length === 0 &&
@@ -333,7 +333,7 @@ class Nav extends Component {
       <div>
         <AppBar
           title="It's Lit Fam"
-          style={styles.appBarStyle}
+          style={styles.appBarStyle} 
           iconElementLeft={
             <a href="/#" aria-hidden="true"><img src="./fire.png" alt="fire icon" className="fireSmall" />
             </a>
@@ -367,7 +367,7 @@ class SongList extends Component {
 
     });
     var nowPlayingPlaylist = this.props.nowPlaying.map((song, index) => {
-      return <MenuItem style={{color:"black", fontSize:"20px" }} key={index} primaryText={song.displayText} value={index} />
+      return <MenuItem style={styles.titleStyling} key={index} primaryText={song.displayText} value={index} />
     });
 
     return (
