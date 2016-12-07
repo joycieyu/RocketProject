@@ -9,8 +9,6 @@ import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
 import _ from 'lodash';
-import { Layer, Rect, Stage, Group, Circle, Star } from "react-konva";
-import Konva from "konva";
 
 injectTapEventPlugin();
 var s = new SpotifyApi();
@@ -117,7 +115,7 @@ class App extends Component {
   handleToggle = () => this.setState({ open: !this.state.open });
   render() {
     return (
-      <div>
+      <div className="test">
         {this.state.songList.length > 0 &&
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
@@ -130,9 +128,6 @@ class App extends Component {
               <RaisedButton label="Login with Spotify to continue" primary={true} style={styles.buttonStyle}
                 onTouchTap={() => goToSpotifyLogin()} />
             </div>
-          }
-          {this.state.songList.length > 0 &&
-            <MyRect />
           }
           {this.state.songList.length === 0 &&
                   <div>
@@ -261,53 +256,10 @@ class App extends Component {
         </div>
 
 
+        </div>
 
-      </div>
     );
   }
-}
-
-class MyRect extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        color: 'green'
-      };
-    }
-    handleHover = (event) => {
-      this.setState({
-        color: Konva.Util.getRandomColor()
-      });
-      this.refs.rect.to({
-        scaleX: Math.random() + 1.5,
-        scaleY: Math.random() + 1.5,
-        easing: Konva.Easings.EaseInOut,
-        duration: 0.2
-      });
-			
-    }
-    render() {
-      
-        return (
-          <div className="container centered">
-            <Stage width={window.innerWidth / 2} height={350} >
-               <Layer>
-                  <Rect
-                     
-                     width={window.innerWidth / 10} height={50}
-                     fill={this.state.color}
-                     shadowBlur={10}
-                     onMouseEnter={(e) => this.handleHover(e)}
-                     onTouchStart={(e) => this.handleHover(e)}
-                     onClick={(e) => this.handleHover(e)}
-                     draggable="true"
-                     ref="rect"
-                  />
-               </Layer>
-            </Stage>
-          </div>
-        );
-    }
 }
 
 class Nav extends Component {
