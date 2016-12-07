@@ -163,14 +163,9 @@ class App extends Component {
     });
   };
   render() {
-<<<<<<< HEAD
-    return (       
-      <div className="test" id={this.state.nextImage}>
-      {/* Fire icon link at top */}
-=======
     return (
       <div className="test" id={this.state.nextImage}>
->>>>>>> 07b8c8ae421ce05d489800e73cf34906b28904e7
+      {/* Fire icon link at top */}
         {this.state.songList.length > 0 &&
           <Nav />
         }
