@@ -63,6 +63,7 @@ class App extends Component {
             target_valence: this.state.valence, target_energy: this.state.energy, target_danceability: this.state.danceability
           })
             .then((recommendedSongObject) => {
+              this.setState({ open: false });
               this.refreshSongList(recommendedSongObject);
             })
         })
@@ -380,10 +381,15 @@ class SongList extends Component {
     this.props.changeSong(value);
   }
 
+  addToPlaylist = (song) => {
+     this.setState({ open: true });
+     this.props.updateParent(song);
+  }
+
   render() {
     var songCards = this.props.songList.map((song, index) => {
       return <GridTile key={index} title={song.name} subtitle={song.artists[0].name}
-        actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvAddCircleOutline color={cyan50} /></IconButton>}>
+        actionIcon={<IconButton onTouchTap={() => this.addToPlaylist(song)}><AvAddCircleOutline color={cyan50} /></IconButton>}>
         <img src={song.album.images[0].url} alt="album art" />
       </GridTile>
 
@@ -433,7 +439,7 @@ class Dialogs extends Component {
     return (
       <div>
          <Dialog
-            title="Hold up fam"
+            title="Hold up, fam"
             actions={loginActions}
             modal={false}
             open={this.props.loginOpen}

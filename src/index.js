@@ -7,8 +7,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import 'normalize.css';
 import 'react-responsive-audio-player/dist/audioplayer.css';
 import './index.css';
-//import './index2.css';
-
 
 ReactDOM.render(
    <MuiThemeProvider>
