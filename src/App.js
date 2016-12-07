@@ -169,7 +169,7 @@ class App extends Component {
          <div className="test" id={this.state.nextImage}>
             {/* Fire icon link at top */}
             {this.state.songList.length > 0 &&
-               <Nav />
+               <Nav drawerToggle={this.handleToggle} />
             }
             {this.state.songList.length > 0 &&
                <div className="centered top"><a id="addSong" href="#songs">add songs to your <em>lit</em> playlist below</a></div>
@@ -242,8 +242,7 @@ class App extends Component {
                }
                {this.state.songList.length > 0 &&
                   <div className="pushDown">
-                     <div id="songs" className="centered"><RaisedButton label="Regenerate Fire Mixtape" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
-                     <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
+                     <Drawer docked={false} openSecondary={true} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
                         <Subheader style={styles.lightDrawerHeaderStyle}>What would you like?</Subheader>
                         <Subheader>How much do you want to dance?</Subheader>
                         <Slider
@@ -301,7 +300,7 @@ class App extends Component {
                   <div className="centered">
                      <RaisedButton className="space"
                         onTouchTap={this.handleTouchTap}
-                        label="Not feelin' the animation? click here"
+                        label="Not feelin' the animation?"
                         backgroundColor="orange"
                         style={styles.buttonStyle}
                         />
@@ -371,6 +370,7 @@ class Nav extends Component {
                      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
                      >
                      <MenuItem primaryText="Logout" onTouchTap={this.logout} />
+                     <MenuItem primaryText="Regenerate new mixtape" onTouchTap={this.props.drawerToggle} />
                   </IconMenu>
                }
                />
