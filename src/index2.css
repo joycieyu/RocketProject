@@ -61,9 +61,10 @@ footer p {
   
   height: 100%;
   width: 100%;
+  background: transparent url(IMG_5111.jpg);
   background-size: 150%;
   background-attachment: fixed;
-  animation: panning 120s infinite linear;
+  animation: panning 50s infinite linear;
 }
 
 
@@ -106,16 +107,4 @@ em {
 
 #playlistbutton {
   background-color: black;
-}
-
-#blah {
-  background: transparent url(ffbackground.jpg);
-}
-
-#blah2 {
-  background: transparent url(IMG_5111.jpg); 
-}
-
-#blah3 {
-  background: transparent url(lightBulbs.jpg);
 }
