@@ -48,7 +48,7 @@ var goToSpotifyLogin = () => {
    var state = generateRandomString(16);
 
    localStorage.setItem(stateKey, state);
-   var scope = 'user-top-read playlist-read-private'
+   var scope = 'user-top-read playlist-read-private playlist-modify-public playlist-modify-private'
 
    var url = 'https://accounts.spotify.com/authorize';
    url += '?response_type=token';
