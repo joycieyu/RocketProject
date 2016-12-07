@@ -9,7 +9,7 @@ import SpotifyApi from 'spotify-web-api-js';
 import SearchHome from './SearchHome';
 import { goToSpotifyLogin, params } from './auth.js';
 import _ from 'lodash';
-import { Layer, Rect, Stage, Group } from "react-konva";
+import { Layer, Rect, Stage, Group, Circle, Star } from "react-konva";
 import Konva from "konva";
 
 injectTapEventPlugin();
@@ -53,7 +53,7 @@ class App extends Component {
          s.getMyTopTracks()
          .then((data) => {
             var trackSeed = data.items[0].id;
-            s.getRecommendations({ seed_tracks:trackSeed, limit: 50, target_loudness: this.state.loudness, target_tempo: this.state.tempo, 
+            s.getRecommendations({ seed_tracks:trackSeed, target_loudness: this.state.loudness, target_tempo: this.state.tempo, 
                                     target_valence: this.state.valence, target_energy: this.state.energy, target_danceability: this.state.danceability })
             .then((recommendedSongObject) => {
                this.refreshSongList(recommendedSongObject);
@@ -98,7 +98,7 @@ class App extends Component {
    handleLoginClose = () => {
       this.setState({ loginOpen: false });
    }
-
+   handleToggle = () => this.setState({ open: !this.state.open });
    render() {
       return (
          <div>
@@ -114,7 +114,8 @@ class App extends Component {
                   </div>
                }
 							 <MyRect/>
-
+               {this.state.songList.length === 0 &&
+                  <div>
                <Subheader>Danceability</Subheader>
                <Slider
                   defaultValue={0.5}
@@ -159,11 +160,69 @@ class App extends Component {
                   style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
-
+               
                <div className="centered">
                   <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={styles.buttonStyle} 
                      onTouchTap={this.generateFireMixtape}/>
                </div>
+               </div>
+               }
+               {this.state.songList.length > 0 &&
+                  <div>
+                  <div className="centered"><RaisedButton label="Test Slider" onTouchTap={this.handleToggle} style={styles.buttonStyle}/></div>
+                     <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({open})} >
+                     <Subheader>Danceability</Subheader>
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.danceability}
+                  onChange={this.handleDanceability}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+               <Subheader>Energy</Subheader>
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.energy}
+                  onChange={this.handleEnergy}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+               <Subheader>Loudness</Subheader>
+               <Slider
+                  defaultValue={-30}
+                  min={-60}
+                  max={0}
+                  value={this.state.loudness}
+                  onChange={this.handleLoudness}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+               <Subheader>Tempo</Subheader>
+               <Slider
+                  min={60}
+                  max={180}
+                  defaultValue={120}
+                  value={this.state.tempo}
+                  onChange={this.handleTempo}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+               <Subheader>Valence</Subheader>
+               <Slider
+                  defaultValue={0.5}
+                  value={this.state.valence}
+                  onChange={this.handleValence}
+                  style={styles.rootSliderStyle}
+                  sliderStyle={styles.sliderStyle}
+                  />
+                  <div className="centered">
+                  <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={styles.buttonStyle} 
+                     onTouchTap={this.generateFireMixtape}/>
+               </div>
+                     </Drawer>
+                  </div>
+               }
+            
                {this.state.songList.length > 0 &&
                   <SongList songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
                }
@@ -176,30 +235,65 @@ class App extends Component {
       );
    }
 }
-
-class MyRect extends React.Component {
-    constructor(props) {
-      super(props);
+class LilStar extends React.Component {
+    constructor() {
+      super();
       this.state = {
-        color: 'green'
+        color: '#111'
       };
+      this.handleHover = this.handleHover.bind(this);
     }
-    handleClick = (event) => {
+    handleHover() {
       this.setState({
         color: Konva.Util.getRandomColor()
       });
-			
+      this.refs.star.to({
+          scaleX: Math.random() + 1.5,
+          scaleY: Math.random() + 1.5,
+          easing: Konva.Easings.EaseInOut,
+          duration: 0.1
+      });
     }
     render() {
+      return (
+          <Star
+              x={this.props.placeW}
+              y={this.props.placeH} 
+              ref="star"
+              numPoints={8}
+              innerRadius={15}
+              outerRadius={40}
+              fill={this.state.color}
+              onMouseEnter={this.handleHover}
+              onTouchStart={this.handleHover}
+          />
+      );
+    }
+}
+
+class MyRect extends React.Component {
+    
+   //  handleClick = (event) => {
+   //    this.setState({
+   //      color: Konva.Util.getRandomColor()
+   //    });
+   
+   //  }
+    
+   
+    render() {
+       const items = [],
+          vh = window.innerHeight,
+          vw = window.innerWidth;
+      for (let i = 0; i < 300; i++) {
+      let randoH = Math.floor(Math.random() * (vh - -10 + 1)) + -10,
+          randoW = Math.floor(Math.random() * (vw - -10 + 1)) + -10;
+      items.push(<LilStar key={i} placeH={randoH} placeW={randoW}/>);
+      }
         return (
             <Stage width={window.innerWidth / 2} height={100} >
                <Layer>
-                  <Rect
-                     x={10} y={10} width={window.innerWidth / 3} height={50}
-                     fill={this.state.color}
-                     shadowBlur={10}
-                     onClick={(e) => this.handleClick(e)}
-                  />
+                  {items}
                </Layer>
             </Stage>
         );
@@ -245,7 +339,7 @@ class SongList extends Component {
 
       return (
          <div>
-            <div className="centered"><RaisedButton label="Toggle Drawer" onTouchTap={this.handleToggle} style={styles.buttonStyle}/></div>
+            <div className="centered"><RaisedButton label="Show My Lit Playlist" onTouchTap={this.handleToggle} style={styles.buttonStyle}/></div>
             <Drawer docked={false} width={200} open={this.state.open} onRequestChange={(open) => this.setState({open})} >
                <List>
                   <Subheader>Now Playing</Subheader>
