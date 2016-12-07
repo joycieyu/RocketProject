@@ -4,7 +4,7 @@ const styles = {
       backgroundColor: "transparent",
       elevation: 'none',
       boxShadow: "none",
-      margin: "10px"
+      margin: "10px",
    },
    songListStyle: {
       margin: 0,
