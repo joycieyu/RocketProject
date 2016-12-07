@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
 import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List, Menu, MenuItem } from 'material-ui';
-import AvPlayCircleFilled from 'material-ui/svg-icons/av/play-circle-outline';
+import AvAddCircleOutline from 'material-ui/svg-icons/av/playlist-add.js';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -188,8 +188,8 @@ class App extends Component {
             </div>
           }
           {this.state.songList.length > 0 &&
-            <div>
-              <div className="centered pushDown"><RaisedButton label="Re-Mix a new Lit Playlist" onTouchTap={this.handleToggle} style={styles.buttonStyle} /></div>
+            <div className="pushDown">
+              <div id="songs" className="centered"><RaisedButton label="Re-Mix a new Lit Playlist" onTouchTap={this.handleToggle} style={styles.buttonStyle} /></div>
               <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
                 <Subheader>What would you like?</Subheader>
                 <Subheader>How much do you want to dance?</Subheader>
@@ -244,7 +244,7 @@ class App extends Component {
             </div>
           }
           {this.state.songList.length > 0 &&
-           <div id="songs"> <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} /></div>
+            <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
           }
         </div>
         {this.state.nowPlaying.length > 0 &&
@@ -299,7 +299,7 @@ class SongList extends Component {
   render() {
     var songCards = this.props.songList.map((song, index) => {
       return <GridTile key={index} title={song.name} subtitle={song.artists[0].name}
-        actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvPlayCircleFilled color={cyan50} /></IconButton>}>
+        actionIcon={<IconButton onTouchTap={() => this.props.updateParent(song)}><AvAddCircleOutline color={cyan50} /></IconButton>}>
         <img src={song.album.images[0].url} alt="album art" />
       </GridTile>
 
