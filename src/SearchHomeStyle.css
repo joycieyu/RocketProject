@@ -12,7 +12,10 @@ p {
 }
 
 #home {
-    margin-bottom: 10px;
+    margin: 10px;
+    max-width: 768px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .fireBig {

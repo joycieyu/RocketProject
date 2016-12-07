@@ -13,7 +13,7 @@ const styles = {
 class SearchHome extends Component {
 	render() {
 		return (
-			<div id="home" className="container">
+			<div id="home">
 				<p className="centered"><img src="./fire.png" alt="fire icon" className="fireBig" aria-hidden="true" />It's Lit Fam</p>
 			</div>
 		);
