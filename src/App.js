@@ -209,35 +209,6 @@ class App extends Component {
   }
 }
 class MyRect extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      color: 'green'
-    };
-  }
-  handleClick = (event) => {
-    this.setState({
-      color: Konva.Util.getRandomColor()
-    });
-
-  }
-  render() {
-    return (
-      <div className="container centered">
-        <Stage width={window.innerWidth / 2} height={100} >
-          <Layer>
-            <Rect
-              x={10} y={10} width={window.innerWidth / 3} height={50}
-              fill={this.state.color}
-              shadowBlur={10}
-              onClick={(e) => this.handleClick(e)}
-              />
-          </Layer>
-        </Stage>
-      </div>
-    );
-  }
-
     constructor(props) {
       super(props);
       this.state = {
