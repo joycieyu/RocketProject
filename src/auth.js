@@ -11,6 +11,7 @@ function getHashParams() {
    while (e = r.exec(q)) {
       hashParams[e[1]] = decodeURIComponent(e[2]);
    }
+   history.pushState("", document.title, window.location.pathname + window.location.search);
    return hashParams;
 }
 
@@ -48,7 +49,7 @@ var goToSpotifyLogin = () => {
    var state = generateRandomString(16);
 
    localStorage.setItem(stateKey, state);
-   var scope = 'user-top-read playlist-read-private'
+   var scope = 'user-top-read playlist-read-private playlist-modify-public playlist-modify-private'
 
    var url = 'https://accounts.spotify.com/authorize';
    url += '?response_type=token';
