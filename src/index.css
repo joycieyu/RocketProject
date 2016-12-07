@@ -114,17 +114,11 @@ a em {
 }
 
 #background0 {
-  background: transparent url(ffbackgroundblur.jpg);
-    /*-webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);*/
-
+  background: transparent url(IMG_5111blur.jpg);
 }
 
 #background1 {
-  background: transparent url(IMG_5111blur.jpg); 
+  background: transparent url(ffbackgroundblur.jpg); 
 }
 
 #background2 {

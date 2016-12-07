@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import './SearchHomeStyle.css';
 
-
-const styles = {
-	customWidth: {
-		width: "100%",
-	},
-};
-
 class SearchHome extends Component {
 	render() {
 		return (

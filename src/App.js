@@ -243,7 +243,7 @@ class App extends Component {
             <div className="pushDown">
               <div id="songs" className="centered"><RaisedButton label="Regenerate Fire Mixtape" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
               <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
-                <Subheader style={{fontSize:"25px"}}>What would you like?</Subheader>
+                <Subheader style={ styles.lightDrawerHeaderStyle }>What would you like?</Subheader>
                 <Subheader>How much do you want to dance?</Subheader>
                 <Slider
                   defaultValue={0.5}
@@ -312,8 +312,8 @@ class App extends Component {
                 onRequestClose={this.handleRequestClose}
               >
                 <Menu>
-                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, "background0")}  />
-                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, "background1")}/>
+                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, "background0")}  />
+                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, "background1")}/>
                   <MenuItem primaryText="Light Blubs" onTouchTap={(event) => this.handleClick(event, "background2")} />
                   <MenuItem primaryText="Leaves" onTouchTap={(event) => this.handleClick(event, "background3")} />
                 </Menu>
@@ -402,7 +402,7 @@ class SongList extends Component {
       <div>
         <div className="centered"><RaisedButton label="Show my Lit Playlist Now" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
         <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
-          <Subheader>Now Playing</Subheader>
+          <Subheader style={styles.lightDrawerHeaderStyle}>Now Playing</Subheader>
           <Menu onChange={this.handleChange}>
             {nowPlayingPlaylist}
           </Menu>
@@ -412,7 +412,7 @@ class SongList extends Component {
           cellHeight={180}
           style={styles.songListStyle}
         >
-          <Subheader>Results</Subheader>
+          <Subheader style={styles.resultsStyle}>Results</Subheader>
           {songCards}
         </GridList>
       </div>

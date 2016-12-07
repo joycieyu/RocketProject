@@ -38,6 +38,13 @@ const styles = {
        fontSize: "18px",
        textAlign: "center"
    },
+   resultsStyle: {
+      color: "white",
+      fontSize: "18px"
+   },
+   lightDrawerHeaderStyle: {
+      fontSize: "18px"
+   }
 };
 
 export default styles;
