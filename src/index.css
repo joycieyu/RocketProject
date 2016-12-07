@@ -65,7 +65,6 @@ footer p {
   animation: panning 120s infinite linear;
 }
 
-
 html, body {
   height: 100%;
 }
@@ -112,7 +111,7 @@ a em {
 }
 
 #blah {
-  background: transparent url(ffbackground.jpg);
+  background: transparent url(ffbackground.jpg);;
 }
 
 #blah2 {

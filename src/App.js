@@ -27,7 +27,7 @@ class App extends Component {
       dataSource: [],
       inputValue: "",
       loginOpen: false,
-      nextImage:["blah", "blah2", "blah3"],
+      nextImage:"",
       openPopOver: false
     });
 }
@@ -149,14 +149,14 @@ class App extends Component {
   };
 
   handleClick(event, num) {
-    this.setState({
-     nextImage: this.state.nextImage[num]
-    });
-    console.log(num);
+    
+    
+    this.setState({ nextImage: num })
+    
   };
   render() {
     return (
-      <div className="test" id={this.state.nextImage[0]}>
+      <div className="test" id={this.state.nextImage}>
         {this.state.songList.length > 0 &&
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
@@ -298,8 +298,8 @@ class App extends Component {
                 onRequestClose={this.handleRequestClose}
               >
                 <Menu>
-                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, 0)}  />
-                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, 1)}/>
+                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, "blah")}  />
+                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, "blah2")}/>
                   <MenuItem primaryText="Light Blubs" />
                   <MenuItem primaryText="Leaves" />
                 </Menu>
