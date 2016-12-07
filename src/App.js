@@ -135,7 +135,7 @@ class App extends Component {
           {this.state.songList.length === 0 &&
             <div>
               <div className="container sliders">
-                <Subheader>How much do you want to dance?</Subheader>
+                <Subheader style={styles.subHeaderStyle}>How much do you want to dance?</Subheader>
                 <Slider
                   defaultValue={0.5}
                   value={this.state.danceability}
@@ -143,7 +143,7 @@ class App extends Component {
                   style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
-                <Subheader>How pumped are you?</Subheader>
+                <Subheader style={styles.subHeaderStyle}>How pumped are you?</Subheader>
                 <Slider
                   defaultValue={0.5}
                   value={this.state.energy}
@@ -151,7 +151,7 @@ class App extends Component {
                   style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
-                <Subheader>How loud do you want your music?</Subheader>
+                <Subheader style={styles.subHeaderStyle}>How loud do you want your music?</Subheader>
                 <Slider
                   defaultValue={-30}
                   min={-60}
@@ -161,7 +161,7 @@ class App extends Component {
                   style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
-                <Subheader>How fast do you want the beat?</Subheader>
+                <Subheader style={styles.subHeaderStyle}>How fast do you want the beat?</Subheader>
                 <Slider
                   min={60}
                   max={180}
@@ -171,7 +171,7 @@ class App extends Component {
                   style={styles.rootSliderStyle}
                   sliderStyle={styles.sliderStyle}
                   />
-                <Subheader>How happy do you want your tunes?</Subheader>
+                <Subheader style={styles.subHeaderStyle}>How happy do you want your tunes?</Subheader>
                 <Slider
                   defaultValue={0.5}
                   value={this.state.valence}
@@ -189,9 +189,9 @@ class App extends Component {
           }
           {this.state.songList.length > 0 &&
             <div className="pushDown">
-              <div id="songs" className="centered"><RaisedButton label="Re-Mix a new Lit Playlist" onTouchTap={this.handleToggle} style={styles.buttonStyle} /></div>
+              <div id="songs" className="centered"><RaisedButton label="Re-Mix a new Lit Playlist!" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
               <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
-                <Subheader>What would you like?</Subheader>
+                <Subheader style={{fontSize:"25px"}}>What would you like?</Subheader>
                 <Subheader>How much do you want to dance?</Subheader>
                 <Slider
                   defaultValue={0.5}
@@ -305,14 +305,14 @@ class SongList extends Component {
 
     });
     var nowPlayingPlaylist = this.props.nowPlaying.map((song, index) => {
-      return <MenuItem key={index} primaryText={song.displayText} value={index} />
+      return <MenuItem style={{color:"black", fontSize:"20px" }} key={index} primaryText={song.displayText} value={index} />
     });
 
     return (
       <div>
-        <div className="centered"><RaisedButton label="Show my Lit Playlist" onTouchTap={this.handleToggle} style={styles.buttonStyle} /></div>
+        <div className="centered"><RaisedButton label="Show my Lit Playlist Now" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
         <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
-          <Subheader>Now Playing</Subheader>
+          <Subheader style={{fontSize:"25px"}}>Now Playing</Subheader>
           <Menu onChange={this.handleChange}>
             {nowPlayingPlaylist}
           </Menu>

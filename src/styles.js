@@ -29,8 +29,12 @@ const styles = {
    },
    buttonStyle: {
       marginBottom: "16px"
-   }
-
+   },
+   subHeaderStyle: {
+       color:"white",
+       fontSize: "18px",
+       textAlign: "center"
+   },
 };
 
 export default styles;
