@@ -1,6 +1,5 @@
 * {
    font-family: 'Roboto', sans-serif;
-   color: white;
 }
 
 /* workaround for normalize.css breaking material ui buttons */
@@ -90,6 +89,9 @@ position: absolute;
   border: 3px solid #ccc;
   border-radius: 2px;
   -webkit-font-smoothing: antialiased;
+}
+#addSong {
+  color: white;
 }
 
 .pushDown {
