@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AudioPlayer from 'react-responsive-audio-player';
-import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List, Menu, MenuItem } from 'material-ui';
+import { AppBar, Dialog, FlatButton, GridList, GridTile, IconButton, RaisedButton, Slider, Subheader, Drawer, ListItem, List, Menu, MenuItem, Popover } from 'material-ui';
 import AvAddCircleOutline from 'material-ui/svg-icons/av/playlist-add.js';
 import { cyan50 } from 'material-ui/styles/colors';
 import styles from './styles.js';
@@ -26,7 +26,8 @@ class App extends Component {
       valence: 0.5,
       dataSource: [],
       inputValue: "",
-      loginOpen: false
+      loginOpen: false,
+      openPopOver: false
     });
   }
 
@@ -113,6 +114,22 @@ class App extends Component {
     this.setState({ loginOpen: false });
   }
   handleToggle = () => this.setState({ open: !this.state.open });
+  
+  handleTouchTap = (event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+
+    this.setState({
+      openPopOver: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleRequestClose = () => {
+    this.setState({
+      openPopOver: false,
+    });
+  };
   render() {
     return (
       <div className="test">
@@ -241,6 +258,28 @@ class App extends Component {
                     onTouchTap={this.generateFireMixtape} />
                 </div>
               </Drawer>
+            </div>
+          }
+          {this.state.songList.length > 0 &&
+          <div className="centered">
+              <RaisedButton
+                onTouchTap={this.handleTouchTap}
+                label="Click me"
+              />
+              <Popover
+                open={this.state.openPopOver}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                onRequestClose={this.handleRequestClose}
+              >
+                <Menu>
+                  <MenuItem primaryText="Refresh" />
+                  <MenuItem primaryText="Help &amp; feedback" />
+                  <MenuItem primaryText="Settings" />
+                  <MenuItem primaryText="Sign out" />
+                </Menu>
+              </Popover>
             </div>
           }
           {this.state.songList.length > 0 &&
