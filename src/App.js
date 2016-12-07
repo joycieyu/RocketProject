@@ -19,6 +19,7 @@ class App extends Component {
     this.state = ({
       songList: [],
       nowPlaying: [],
+      nowPlayingUri: [],
       danceability: 0.5,
       energy: 0.5,
       loudness: -30,
@@ -28,6 +29,7 @@ class App extends Component {
       inputValue: "",
       loginOpen: false,
       nextImage:["background0", "background1", "background2", "background3"],
+      playlistOpen: false,
       openPopOver: false
     });
 }
@@ -89,7 +91,8 @@ class App extends Component {
       nowPlaying: this.state.nowPlaying.concat([{
         url: song.preview_url,
         displayText: song.name + ' - ' + song.artists[0].name
-      }])
+      }]),
+      nowPlayingUri: this.state.nowPlayingUri.concat([song.uri])
     });
   }
 
@@ -107,29 +110,31 @@ class App extends Component {
     });
   }
 
-  handleDanceability = (event, value) => {
-    this.setState({ danceability: value });
-  };
-
-  handleEnergy = (event, value) => {
-    this.setState({ energy: value });
-  };
-
-  handleLoudness = (event, value) => {
-    this.setState({ loudness: value });
-  };
-
-  handleTempo = (event, value) => {
-    this.setState({ tempo: value });
-  };
-
-  handleValence = (event, value) => {
-    this.setState({ valence: value });
-  };
-
-  handleLoginClose = () => {
-    this.setState({ loginOpen: false });
+  createPlaylist = () => {
+     s.getMe()
+     .then((user) => {
+        s.createPlaylist(user.id, { name: "My Fire Mixtape" })
+        .then((playlist) => {
+           s.addTracksToPlaylist(user.id, playlist.id, this.state.nowPlayingUri)
+           .then(() => { this.setState({ playlistOpen: true }) })
+        })
+     })
   }
+
+  handleDanceability = (event, value) => this.setState({ danceability: value });
+
+  handleEnergy = (event, value) => this.setState({ energy: value });
+
+  handleLoudness = (event, value) => this.setState({ loudness: value });
+
+  handleTempo = (event, value) => this.setState({ tempo: value });
+
+  handleValence = (event, value) => this.setState({ valence: value });
+
+  handleLoginClose = () => this.setState({ loginOpen: false });
+
+  handlePlaylistClose = () => this.setState({ playlistOpen: false });
+
   handleToggle = () => this.setState({ open: !this.state.open });
   
   handleTouchTap = (event) => {
@@ -304,6 +309,12 @@ class App extends Component {
                   <MenuItem primaryText="Leaves" />
                 </Menu>
               </Popover>
+              <RaisedButton
+               onTouchTap={this.createPlaylist}
+               label="Add this playlist to Spotify"
+               backgroundColor="orange"
+               style={styles.buttonStyle}
+               />
               </div>
           }
           {this.state.songList.length > 0 &&
@@ -314,7 +325,7 @@ class App extends Component {
         {this.state.nowPlaying.length > 0 &&
           <AudioPlayer autoplay ref="playerRef" style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
         }
-        <Dialogs loginOpen={this.state.loginOpen} loginClose={this.handleLoginClose} />
+        <Dialogs loginOpen={this.state.loginOpen} loginClose={this.handleLoginClose} playlistOpen={this.state.playlistOpen} playlistClose={this.handlePlaylistClose}/>
 
         <div className="container">
           <footer>
@@ -400,17 +411,33 @@ class Dialogs extends Component {
         onTouchTap={this.props.loginClose}
         />
     ];
+    const playlistActions = [
+      <FlatButton
+        label="Okay"
+        primary={true}
+        onTouchTap={this.props.playlistClose}
+        />
+    ];
     return (
       <div>
-        <Dialog
-          title="Hold up fam"
-          actions={loginActions}
-          modal={false}
-          open={this.props.loginOpen}
-          onRequestClose={this.props.loginClose}
-          >
-          You need to login with your Spotify account.
-            </Dialog>
+         <Dialog
+            title="Hold up fam"
+            actions={loginActions}
+            modal={false}
+            open={this.props.loginOpen}
+            onRequestClose={this.props.loginClose}
+            >
+            You need to login with your Spotify account.
+         </Dialog>
+         <Dialog
+            title="Playlist added"
+            actions={playlistActions}
+            modal={false}
+            open={this.props.playlistOpen}
+            onRequestClose={this.props.playlistClose}
+            >
+            Check out your Spotify account for your new fire mixtape!
+         </Dialog>
       </div>
     );
   }
