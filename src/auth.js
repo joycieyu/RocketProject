@@ -44,11 +44,12 @@ if (access_token && (state == null || state !== storedState)) {
 
 var goToSpotifyLogin = () => {
    var client_id = 'b4157a6471104362b9205add6f5b5621';
-   var redirect_uri = 'http://localhost:3000/';
+   var redirect_uri = window.location.href;
 
    var state = generateRandomString(16);
 
    localStorage.setItem(stateKey, state);
+   // request access to user's top listened tracks and user's playlists
    var scope = 'user-top-read playlist-read-private playlist-modify-public playlist-modify-private'
 
    var url = 'https://accounts.spotify.com/authorize';

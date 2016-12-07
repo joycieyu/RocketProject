@@ -34,7 +34,6 @@ class App extends Component {
     });
 }
 
-
   componentDidMount() {
     // if logged in, set access token
     if (params.access_token) {
@@ -45,12 +44,15 @@ class App extends Component {
   onUpdateInput = (inputValue) => {
     this.setState({ inputValue: inputValue });
   }
+
   // show list of songs returned by the search query
   refreshSongList = (data) => {
     this.setState({
       songList: data.tracks
     });
   }
+
+  // get song recommendations based on user's listening history and slider values
   generateFireMixtape = () => {
     if (!_.isEmpty(params)) {
       s.getMyTopTracks()
@@ -85,7 +87,7 @@ class App extends Component {
     });
   };
 
-  // add a new song to the play list
+  // add a new song to the playlist
   updateNowPlaying = (song) => {
     this.setState({
       nowPlaying: this.state.nowPlaying.concat([{
@@ -96,9 +98,9 @@ class App extends Component {
     });
   }
 
+  // change currently playing song in the playlist
   changeSong = (value) => {
     var ref = this.refs.playerRef;
-    console.log(value);
     ref.audio.pause();
     ref.currentTrackIndex = value;
     ref.setState({
@@ -110,6 +112,7 @@ class App extends Component {
     });
   }
 
+  // add the current playlist to the user's Spotify account
   createPlaylist = () => {
      s.getMe()
      .then((user) => {
@@ -153,17 +156,18 @@ class App extends Component {
     });
   };
 
+  // change background image
   handleClick(event, num) {
     this.setState({
      nextImage: this.state.nextImage[num]
     });
-    console.log(num);
   };
   render() {
     return (
       <div className="test" id={this.state.nextImage[0]}>
+         {/* Fire icon link at top */}
         {this.state.songList.length > 0 &&
-          <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
+          <Nav />
         }
         {this.state.songList.length > 0 &&
           <div className="centered top"><a id="addSong" href="#songs">add songs to your <em>lit</em> playlist below</a></div>
@@ -178,6 +182,7 @@ class App extends Component {
                 onTouchTap={() => goToSpotifyLogin()} />
             </div>
           }
+          {/* Sliders for adjusting preferred music parameters */}
           {this.state.songList.length === 0 &&
             <div>
               <div className="container sliders">
@@ -228,14 +233,14 @@ class App extends Component {
               </div>
 
               <div className="centered">
-                <RaisedButton label="Make Your Lit Mixtape" primary={true} style={styles.buttonStyle}
+                <RaisedButton label="Generate Fire Mixtape" primary={true} style={styles.buttonStyle}
                   onTouchTap={this.generateFireMixtape} />
               </div>
             </div>
           }
           {this.state.songList.length > 0 &&
             <div className="pushDown">
-              <div id="songs" className="centered"><RaisedButton label="Re-Mix a new Lit Playlist!" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
+              <div id="songs" className="centered"><RaisedButton label="Regenerate Fire Mixtape" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
               <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
                 <Subheader style={{fontSize:"25px"}}>What would you like?</Subheader>
                 <Subheader>How much do you want to dance?</Subheader>
@@ -283,12 +288,13 @@ class App extends Component {
                   sliderStyle={styles.sliderStyle}
                   />
                 <div className="centered">
-                  <RaisedButton label="Click Me To Make Your Lit Mixtape!" primary={true} style={styles.buttonStyle}
+                  <RaisedButton label="Generate Fire Mixtape" primary={true} style={styles.buttonStyle}
                     onTouchTap={this.generateFireMixtape} />
                 </div>
               </Drawer>
             </div>
           }
+          {/* Options for changing background and adding a playlist to Spotify */}
           {this.state.songList.length > 0 &&
           <div className="centered">
               <RaisedButton
@@ -317,6 +323,7 @@ class App extends Component {
                />
               </div>
           }
+          {/* Generated list of songs */}
           {this.state.songList.length > 0 &&
             <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
           }
@@ -325,8 +332,8 @@ class App extends Component {
         {this.state.nowPlaying.length > 0 &&
           <AudioPlayer autoplay ref="playerRef" style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
         }
+        {/* Combination of all used dialogs */}
         <Dialogs loginOpen={this.state.loginOpen} loginClose={this.handleLoginClose} playlistOpen={this.state.playlistOpen} playlistClose={this.handlePlaylistClose}/>
-
         <div className="container">
           <footer>
             <p> made by team rocket </p>
@@ -365,10 +372,13 @@ class SongList extends Component {
   }
 
   handleToggle = () => this.setState({ open: !this.state.open });
+  
+  // change currently playing song
   handleChange = (event, value) => {
     this.setState({ currentSong: value })
     this.props.changeSong(value);
   }
+
   render() {
     var songCards = this.props.songList.map((song, index) => {
       return <GridTile key={index} title={song.name} subtitle={song.artists[0].name}
@@ -394,7 +404,7 @@ class SongList extends Component {
         <GridList
           cellHeight={180}
           style={styles.songListStyle}
-          >
+        >
           <Subheader>Results</Subheader>
           {songCards}
         </GridList>
