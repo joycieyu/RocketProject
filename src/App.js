@@ -64,7 +64,7 @@ class App extends Component {
                   target_valence: this.state.valence, target_energy: this.state.energy, target_danceability: this.state.danceability
                })
                   .then((recommendedSongObject) => {
-                     this.setState({ open: false });
+                     this.setState({ sliderDrawerOpen: false });
                      this.refreshSongList(recommendedSongObject);
                   })
             })
@@ -96,12 +96,13 @@ class App extends Component {
             url: song.preview_url,
             displayText: song.name + ' - ' + song.artists[0].name
          }]),
-         nowPlayingUri: this.state.nowPlayingUri.concat([song.uri])
+         nowPlayingUri: this.state.nowPlayingUri.concat([song.uri]),
+         playlistDrawerOpen: true
       });
    }
 
    // change currently playing song in the playlist
-   changeSong = (value) => {
+   changeSong = (event, value) => {
       var ref = this.refs.playerRef;
       ref.audio.pause();
       ref.currentTrackIndex = value;
@@ -140,7 +141,9 @@ class App extends Component {
 
    handlePlaylistClose = () => this.setState({ playlistOpen: false });
 
-   handleToggle = () => this.setState({ open: !this.state.open });
+   handleSliderDrawerToggle = () => this.setState({ sliderDrawerOpen: !this.state.sliderDrawerOpen });
+
+   handlePlaylistDrawerToggle = () => this.setState({ playlistDrawerOpen: !this.state.playlistDrawerOpen });
 
    handleTouchTap = (event) => {
       // This prevents ghost click.
@@ -165,11 +168,15 @@ class App extends Component {
       });
    };
    render() {
+      var nowPlayingPlaylist = this.state.nowPlaying.map((song, index) => {
+         return <MenuItem style={styles.titleStyling} key={index} primaryText={song.displayText} value={index} />
+      });
+
       return (
          <div className="test" id={this.state.nextImage}>
             {/* Fire icon link at top */}
             {this.state.songList.length > 0 &&
-               <Nav drawerToggle={this.handleToggle} />
+               <Nav sliderDrawerToggle={this.handleSliderDrawerToggle} playlistDrawerToggle={this.handlePlaylistDrawerToggle} />
             }
             {this.state.songList.length > 0 &&
                <div className="centered top"><a id="addSong" href="#songs">add songs to your <em>lit</em> playlist below</a></div>
@@ -242,7 +249,7 @@ class App extends Component {
                }
                {this.state.songList.length > 0 &&
                   <div className="pushDown">
-                     <Drawer docked={false} openSecondary={true} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
+                     <Drawer docked={false} openSecondary={true} width={300} open={this.state.sliderDrawerOpen} onRequestChange={(open) => this.setState({ sliderDrawerOpen: false })} >
                         <Subheader style={styles.lightDrawerHeaderStyle}>What would you like?</Subheader>
                         <Subheader>How much do you want to dance?</Subheader>
                         <Slider
@@ -326,9 +333,17 @@ class App extends Component {
                         />
                   </div>
                }
-               {/* Generated list of songs */}
+               {/* Now playing drawer and generated list of songs */}
                {this.state.songList.length > 0 &&
-                  <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
+                  <div>
+                     <Drawer docked={false} openSecondary={true} width={300} open={this.state.playlistDrawerOpen} onRequestChange={(open) => this.setState({ playlistDrawerOpen: false })} >
+                        <Subheader style={styles.lightDrawerHeaderStyle}>Now Playing</Subheader>
+                        <Menu onChange={this.changeSong}>
+                           {nowPlayingPlaylist}
+                        </Menu>
+                     </Drawer>
+                     <SongList songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} playlistDrawerToggle={this.handlePlaylistDrawerToggle}/>
+                  </div>
                }
             </div>
 
@@ -370,7 +385,8 @@ class Nav extends Component {
                      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
                      >
                      <MenuItem primaryText="Logout" onTouchTap={this.logout} />
-                     <MenuItem primaryText="Regenerate new mixtape" onTouchTap={this.props.drawerToggle} />
+                     <MenuItem primaryText="Regenerate new mixtape" onTouchTap={this.props.sliderDrawerToggle} />
+                     <MenuItem primaryText="See current playlist" onTouchTap={this.props.playlistDrawerToggle} />
                   </IconMenu>
                }
                />
@@ -384,20 +400,11 @@ class SongList extends Component {
       super(props);
       this.state = {
          open: false,
-         currentSong: 0
       };
    }
 
-   handleToggle = () => this.setState({ open: !this.state.open });
-
-   // change currently playing song
-   handleChange = (event, value) => {
-      this.setState({ currentSong: value })
-      this.props.changeSong(value);
-   }
-
    addToPlaylist = (song) => {
-      this.setState({ open: true });
+      this.props.playlistDrawerToggle();
       this.props.updateParent(song);
    }
 
@@ -409,20 +416,9 @@ class SongList extends Component {
          </GridTile>
 
       });
-      var nowPlayingPlaylist = this.props.nowPlaying.map((song, index) => {
-         return <MenuItem style={styles.titleStyling} key={index} primaryText={song.displayText} value={index} />
-      });
 
       return (
-         <div>
-            <div className="centered"><RaisedButton label="Show my Lit Playlist Now" onTouchTap={this.handleToggle} style={styles.buttonStyle} backgroundColor="orange" /></div>
-            <Drawer docked={false} width={300} open={this.state.open} onRequestChange={(open) => this.setState({ open })} >
-               <Subheader style={styles.lightDrawerHeaderStyle}>Now Playing</Subheader>
-               <Menu onChange={this.handleChange}>
-                  {nowPlayingPlaylist}
-               </Menu>
-            </Drawer>
-
+         <div id="songs">
             <GridList
                cellHeight={180}
                style={styles.songListStyle}
@@ -463,7 +459,7 @@ class Dialogs extends Component {
                You need to login with your Spotify account.
          </Dialog>
             <Dialog
-               title="Playlist added"
+               title="Gotchu fam"
                actions={playlistActions}
                modal={false}
                open={this.props.playlistOpen}
