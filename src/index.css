@@ -64,7 +64,7 @@ footer p {
   background: transparent url(ffbackground.jpg);
   background-size: 150%;
   background-attachment: fixed;
-  animation: panning 50s infinite linear;
+  animation: panning 120s infinite linear;
 }
 
 
