@@ -60,7 +60,7 @@ footer p {
   
   height: 100%;
   width: 100%;
-  background-size: 150%;
+  background-size: 200%;
   background-attachment: fixed;
   animation: panning 120s infinite linear;
 }
