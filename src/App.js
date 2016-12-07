@@ -120,7 +120,7 @@ class App extends Component {
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
         {this.state.songList.length > 0 &&
-          <div className="centered top">add songs to your <em>lit</em> playlist below</div>
+          <div className="centered top"><a href="#songs">add songs to your <em>lit</em> playlist below</a></div>
         }
         <div className="container">
           {this.state.songList.length === 0 &&
@@ -244,7 +244,7 @@ class App extends Component {
             </div>
           }
           {this.state.songList.length > 0 &&
-            <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
+           <div id="songs"> <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} /></div>
           }
         </div>
         {this.state.nowPlaying.length > 0 &&

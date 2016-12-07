@@ -3,8 +3,8 @@ const styles = {
       position: 'fixed',
       backgroundColor: "transparent",
       elevation: 'none',
-      boxShadow: "none"
-          
+      boxShadow: "none",
+      margin: "10px"
    },
    songListStyle: {
       margin: 0,
