@@ -60,9 +60,11 @@ footer p {
   
   height: 100%;
   width: 100%;
-  background-size: 200%;
+  background-size: 200% cover;
   background-attachment: fixed;
   animation: panning 120s infinite linear;
+  background-repeat: no-repeat;
+
 }
 
 

@@ -28,7 +28,7 @@ class App extends Component {
       dataSource: [],
       inputValue: "",
       loginOpen: false,
-      nextImage:["background0", "background1", "background2", "background3"],
+      nextImage:"background0",
       playlistOpen: false,
       openPopOver: false
     });
@@ -155,13 +155,13 @@ class App extends Component {
 
   handleClick(event, num) {
     this.setState({
-     nextImage: this.state.nextImage[num]
+     nextImage: num
     });
     console.log(num);
   };
   render() {
     return (
-      <div className="test" id={this.state.nextImage[2]}>
+      <div className="test" id={this.state.nextImage}>
         {this.state.songList.length > 0 &&
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
@@ -291,9 +291,11 @@ class App extends Component {
           }
           {this.state.songList.length > 0 &&
           <div className="centered">
-              <RaisedButton
+              <RaisedButton className="space"
                 onTouchTap={this.handleTouchTap}
                 label="Not feelin' the animation? click here"
+                backgroundColor="orange"
+                style={styles.buttonStyle}
               />
               <Popover
                 open={this.state.openPopOver}
@@ -303,10 +305,10 @@ class App extends Component {
                 onRequestClose={this.handleRequestClose}
               >
                 <Menu>
-                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, 0)}  />
-                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, 1)}/>
-                  <MenuItem primaryText="Light Blubs" />
-                  <MenuItem primaryText="Leaves" />
+                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, "background0")}  />
+                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, "background1")}/>
+                  <MenuItem primaryText="Light Blubs" onTouchTap={(event) => this.handleClick(event, "background2")} />
+                  <MenuItem primaryText="Leaves" onTouchTap={(event) => this.handleClick(event, "background3")} />
                 </Menu>
               </Popover>
               <RaisedButton
