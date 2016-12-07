@@ -27,10 +27,11 @@ class App extends Component {
       dataSource: [],
       inputValue: "",
       loginOpen: false,
-      nextImage:["blah","blah2", "blah3"],
+      nextImage:["blah", "blah2", "blah3"],
       openPopOver: false
     });
-  }
+}
+
 
   componentDidMount() {
     // if logged in, set access token
@@ -146,9 +147,16 @@ class App extends Component {
       openPopOver: false,
     });
   };
+
+  handleClick(event, num) {
+    this.setState({
+     nextImage: this.state.nextImage[num]
+    });
+    console.log(num);
+  };
   render() {
     return (
-      <div className="test" id={this.state.nextImage[2]}>
+      <div className="test" id={this.state.nextImage[0]}>
         {this.state.songList.length > 0 &&
           <Nav refreshSongList={this.refreshSongList} userFeatureValue={this.state} />
         }
@@ -280,7 +288,7 @@ class App extends Component {
           <div className="centered">
               <RaisedButton
                 onTouchTap={this.handleTouchTap}
-                label="Click me"
+                label="Not feelin' the animation? click here"
               />
               <Popover
                 open={this.state.openPopOver}
@@ -290,10 +298,10 @@ class App extends Component {
                 onRequestClose={this.handleRequestClose}
               >
                 <Menu>
-                  <MenuItem primaryText="Refresh" />
-                  <MenuItem primaryText="Help &amp; feedback" />
-                  <MenuItem primaryText="Settings" />
-                  <MenuItem primaryText="Sign out" />
+                  <MenuItem primaryText="Final Fantasy" onTouchTap={(event) => this.handleClick(event, 0)}  />
+                  <MenuItem primaryText="Harbour" onTouchTap={(event) => this.handleClick(event, 1)}/>
+                  <MenuItem primaryText="Light Blubs" />
+                  <MenuItem primaryText="Leaves" />
                 </Menu>
               </Popover>
               </div>
@@ -302,7 +310,7 @@ class App extends Component {
             <SongList changeSong={this.changeSong} songList={this.state.songList} nowPlaying={this.state.nowPlaying} updateParent={this.updateNowPlaying} />
           }
         </div>
-        
+
         {this.state.nowPlaying.length > 0 &&
           <AudioPlayer autoplay ref="playerRef" style={styles.audioPlayerStyle} playlist={this.state.nowPlaying} />
         }
@@ -313,8 +321,6 @@ class App extends Component {
             <p> made by team rocket </p>
           </footer>
         </div>
-
-
       </div>
 
     );

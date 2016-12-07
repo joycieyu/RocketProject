@@ -101,7 +101,7 @@ position: absolute;
     text-decoration: none;
 }
 
-em {
+a em {
     color: #ff6600;
     font-weight: bold;
 }
