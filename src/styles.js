@@ -30,12 +30,11 @@ const styles = {
       marginBottom: "16px"
    },
    buttonStyle: {
-      marginBottom: "16px"
+      margin: "16px"
    },
    subHeaderStyle: {
        color:"white",
-       fontSize: "18px",
-       textAlign: "center"
+       fontSize: "18px"
    },
    resultsStyle: {
       color: "white",

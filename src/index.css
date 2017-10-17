@@ -1,42 +1,42 @@
 * {
-   font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
-
 /* workaround for normalize.css breaking material ui buttons */
 span[type=button] {
-   -webkit-appearance: none;
+  -webkit-appearance: none;
 }
+
 html [type="button"] {
-   -webkit-appearance: none;
+  -webkit-appearance: none;
 }
+
 a[type=button] {
-   -webkit-appearance: none;
+  -webkit-appearance: none;
 }
 
 .container {
-   padding-top: 48px;
-   max-width: 768px;
-   margin-left: auto;
-   margin-right: auto;
+  padding-top: 48px;
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .centered {
-    text-align: center;
+  text-align: center;
 }
 
 .fireSmall {
-    width: 3em;
-    height: 3em;
+  width: 3em;
+  height: 3em;
 }
 
 footer p {
-    font-size: smaller;
+  font-size: smaller;
 }
 
 .sliders {
-    padding-bottom: 48px;
+  padding-bottom: 48px;
 }
-
 
 @keyframes panning {
   0% {
@@ -45,7 +45,7 @@ footer p {
   25% {
     background-position: 100% 100%;
   }
-   50% {
+  50% {
     background-position: 100% 0%;
   }
   75% {
@@ -57,23 +57,21 @@ footer p {
 }
 
 .test {
-  
   height: 100%;
   width: 100%;
   background-size: 200% cover;
   background-attachment: fixed;
   animation: panning 120s infinite linear;
   background-repeat: no-repeat;
-
 }
 
-
-html, body {
+html,
+body {
   height: 100%;
 }
 
 .top {
-position: absolute;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -92,21 +90,23 @@ position: absolute;
   border-radius: 2px;
   -webkit-font-smoothing: antialiased;
 }
+
 #addSong {
   color: white;
   text-decoration: none;
 }
 
 .pushDown {
-    padding-top: 800px;
+  padding-top: 800px;
 }
+
 .top a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a em {
-    color: #ff6600;
-    font-weight: bold;
+  color: #ff6600;
+  font-weight: bold;
 }
 
 #playlistbutton {
@@ -118,7 +118,7 @@ a em {
 }
 
 #background1 {
-  background: transparent url(ffbackgroundblur.jpg); 
+  background: transparent url(ffbackgroundblur.jpg);
 }
 
 #background2 {
